@@ -35,15 +35,29 @@ export class InformePage implements OnInit {
 
   ngOnInit() {   
   }
-  async presentAlert() {
-    const alert = await this.alertCtrl.create({
-      header: 'A Short Title Is Best',
-      subHeader: 'A Sub Header Is Optional',
-      message: 'A message should be a short, complete sentence.',
-      buttons: ['Action'],
-    });
+  public alertButtons = [
+    {
+      text: 'PDF',
+      role: 'pdf',
+      handler: () => {
+        console.log('Descarga en PDF');
+      },
+    },
+    {
+      text: 'XLS',
+      role: 'xls',
+      handler: () => {
+        console.log('Descarga en XLS');
+      },
+    },
+    {
+      text: 'CANCELAR',
+      role: 'cancelar',
+      handler: () => {
+        console.log('Alert cancel');
+      },
+    },
+  ];
 
-    await alert.present();
-  }
 }
 

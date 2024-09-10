@@ -1,0 +1,18 @@
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre los botones */
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    }
+    
+    .custom-button {
+    color: white; /* Color del texto en los botones */
+    font-size: 20px; /* Tamaño texto */
+    padding: 15px;
+    
+    &:hover {
+        --background: #bda435; /* Color pasar mouse*/
+    }
+    }

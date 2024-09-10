@@ -1,13 +1,19 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>por_asistencia_curso</ion-title>
+  <ion-toolbar class="custom-toolbar">
+    <ion-title>Asistencia de Estudiantes</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">por_asistencia_curso</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="attendance-container">
+    <ion-list>
+      <ion-item *ngFor="let student of students">
+        <ion-label class="student-info">
+          <h2>{{ student.name }}</h2>
+          <p>Asistencia: {{ student.attendance }}%</p>
+        </ion-label>
+        <ion-progress-bar value="{{ student.attendance / 100 }}" class="attendance-bar"></ion-progress-bar>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

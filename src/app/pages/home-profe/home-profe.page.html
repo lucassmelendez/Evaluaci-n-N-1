@@ -1,13 +1,13 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>home_profe</ion-title>
+  <ion-toolbar class="custom-toolbar">
+    <ion-title>Home Profesores</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div style="padding: 10px;">
-    <ion-button expand="block" routerLink="/cursos-lista">Lista de cursos</ion-button>
-    <ion-button expand="block" routerLink="/cursos-qr">Generar QR</ion-button>
-    <ion-button expand="block" routerLink="/cursos-informe">Informes</ion-button>
+  <div class="button-container">
+    <ion-button expand="block" routerLink="/cursos-lista" class="custom-button">Lista de Cursos</ion-button>
+    <ion-button expand="block" routerLink="/cursos-qr" class="custom-button">Generar QR</ion-button>
+    <ion-button expand="block" routerLink="/cursos-informe" class="custom-button">Informes</ion-button>
   </div>
 </ion-content>

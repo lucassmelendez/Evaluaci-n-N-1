@@ -1,37 +1,23 @@
-<ion-header [translucent]="true">
-  <ion-toolbar style="text-align: center;">
-    <ion-title>RegistApp</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <div>
-    <img src="../../../assets/img/agenda.gif" alt="" srcset="">
-  </div>
-
-  <div class="form-container">
-    <ion-item>
-      <ion-input label="Nombre Usuario" 
-        placeholder="ingrese nombre usuario"
-        [(ngModel)]="nombre"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-input label="Contraseña" type="password"
-        placeholder="ingrese password"
-        [(ngModel)]="password"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-button expand="full" (click)="validar()">OK</ion-button>
-    </ion-item>
-
-    <div class="links-container">
-      <p>¿Olvidaste tu contraseña?</p>
-      <ion-button fill="clear" [routerLink]="['/env-correo']">Restablecer contraseña</ion-button>
-      
-      <p>¿No tienes una cuenta?</p>
-      <ion-button fill="clear" [routerLink]="['/register']">Regístrate</ion-button>
-    </div>
-  </div>
-</ion-content>
+<body>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="colorlogin">RegistrAPP</ion-card-title>
+    </ion-card-header>
+    <br>
+    <ion-card-content>
+      <ion-input  [(ngModel)]="email" type="email" label="Correo" labelPlacement="floating" fill="outline">
+        <ion-icon  slot="start" color="black" size="large" name="mail"></ion-icon>        
+      </ion-input>
+      <br>
+      <ion-input [(ngModel)]="password" type="password" label="Contraseña" labelPlacement="stacked" fill="outline">
+        <ion-icon slot="start" color="black" size="large" name="lock-closed"></ion-icon>
+      </ion-input>
+      <br>
+      <ion-button (click)="validar()" size="block" color="warning">Iniciar</ion-button>
+      <p class="registro">Si no tienes cuenta, registrate!</p>
+      <ion-button size="block" color="primary" routerLink="/register">Registrate</ion-button>
+      <p class="registro">Olvidaste tu contraseña?</p>
+      <ion-button size="block" color="primary" routerLink="/env-correo">Recuperar</ion-button>
+    </ion-card-content>
+  </ion-card>
+</body>

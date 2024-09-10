@@ -8,6 +8,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+email: any;
 
   constructor(private alertController: AlertController,
     private navCtrl: NavController

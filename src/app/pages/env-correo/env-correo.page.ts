@@ -1,4 +1,7 @@
+import { ConfirmCodePage } from './../confirm-code/confirm-code.page';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-env-correo',
@@ -7,9 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EnvCorreoPage implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router,
+    public navCtrl: NavController,) { }
+  
+  correo:string=''
+
 
   ngOnInit() {
   }
 
+  EnviarCodigo(){
+    this.router.navigate(['/confirm-code']);
+  }
+
+  goBack() {
+    this.navCtrl.back();
+  }
 }

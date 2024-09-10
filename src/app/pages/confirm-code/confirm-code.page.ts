@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-confirm-code',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfirmCodePage implements OnInit {
 
-  constructor() { }
+
+  constructor(private router: Router,
+    public navCtrl: NavController,){}
+
+  codigo:string=''
+  password:string=''
+  password2:string=''
 
   ngOnInit() {
   }
 
+  EnviarCodigo(){
+    this.router.navigate(['/login']);
+  }
+
+  goBack() {
+    this.navCtrl.back();
+  }
 }

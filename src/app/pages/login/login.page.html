@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+  <ion-toolbar style="text-align: center;">
+    <ion-title>RegistApp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div>
+    <img src="../../../assets/img/agenda.gif" alt="" srcset="">
+  </div>
+
+  <div class="form-container">
+    <ion-item>
+      <ion-input label="Nombre Usuario" 
+        placeholder="ingrese nombre usuario"
+        [(ngModel)]="nombre"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Contraseña" type="password"
+        placeholder="ingrese password"
+        [(ngModel)]="password"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-button expand="full" (click)="validar()">OK</ion-button>
+    </ion-item>
+
+    <div class="links-container">
+      <p>¿Olvidaste tu contraseña?</p>
+      <ion-button fill="clear" [routerLink]="['/env-correo']">Restablecer contraseña</ion-button>
+      
+      <p>¿No tienes una cuenta?</p>
+      <ion-button fill="clear" [routerLink]="['/register']">Regístrate</ion-button>
+    </div>
+  </div>
+</ion-content>

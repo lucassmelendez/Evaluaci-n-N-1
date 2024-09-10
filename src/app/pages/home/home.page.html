@@ -1,0 +1,15 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Bienvenido {{ capitalizeFirstLetter(usuario) }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div id="container">
+    <ion-button expand="block" routerLink="/home-profe">Profesor</ion-button>
+    <ion-button expand="block" routerLink="/home-alumno">Alumno</ion-button>
+  </div>
+</ion-content>

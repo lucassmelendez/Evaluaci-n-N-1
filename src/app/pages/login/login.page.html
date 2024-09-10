@@ -5,7 +5,7 @@
     </ion-card-header>
     <br>
     <ion-card-content>
-      <ion-input  [(ngModel)]="email" type="email" label="Correo" labelPlacement="floating" fill="outline">
+      <ion-input  [(ngModel)]="nombre" type="email" label="Correo" labelPlacement="floating" fill="outline">
         <ion-icon  slot="start" color="black" size="large" name="mail"></ion-icon>        
       </ion-input>
       <br>
@@ -14,10 +14,12 @@
       </ion-input>
       <br>
       <ion-button (click)="validar()" size="block" color="warning">Iniciar</ion-button>
-      <p class="registro">Si no tienes cuenta, registratee!</p>
-      <ion-button size="block" color="primary" routerLink="/register">Registrate</ion-button>
-      <p class="registro">Olvidaste tu contraseña?</p>
-      <ion-button size="block" color="primary" routerLink="/env-correo">Recuperar</ion-button>
+      <p class="registro">
+        No tienes una cuenta? <a href="/register" class="enlace-recuperacion">Regístrate</a>
+      </p>
+      <p class="registro">
+        <a href="/env-correo" class="enlace-recuperacion">¿Olvidaste tu contraseña?</a>
+      </p>
     </ion-card-content>
   </ion-card>
 </body>

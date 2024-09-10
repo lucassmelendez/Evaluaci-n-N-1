@@ -20,14 +20,14 @@ email: any;
   ngOnInit() {
   }
 
-  validar(){
-    if (this.nombre=="juanito" && this.password=="123") {
-      console.log("Bienvenido")
-      localStorage.setItem("usuario",this.nombre)
-      this.navCtrl.navigateForward(['/home'])
+  validar() {
+    if (this.nombre.includes('@duocuc.cl') && this.nombre === 'a@duocuc.cl' && this.password === '123') {
+      console.log("Bienvenido");
+      localStorage.setItem("usuario", this.nombre);
+      this.navCtrl.navigateForward(['/home']);
     } else {
-      console.log("Usuario/Password Incorrecto")
-      this.presentAlert()
+      console.log("Usuario/Password Incorrecto");
+      this.presentAlert();
     }
   }
 

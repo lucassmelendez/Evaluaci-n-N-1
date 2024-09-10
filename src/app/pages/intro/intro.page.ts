@@ -12,7 +12,7 @@ export class IntroPage implements OnInit {
   ngOnInit() { 
     setTimeout(()=>{
       this.navCtrl.navigateForward(['/login']) 
-    },3000)
+    },5000)
   }
 
 }

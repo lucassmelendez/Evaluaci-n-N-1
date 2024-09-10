@@ -2,9 +2,8 @@
 body{
   background-image: url(../../../assets/img/QRfondo.png);
   background-repeat: no-repeat ;
-  background-size: cover; /* Para asegurarte de que la imagen cubra toda la pantalla */
+  background-size: cover; 
   background-position: center;
-  filter: opacity(0.7); /* Ajusta el valor entre 0 (completamente transparente) y 1 (completamente opaco) */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,11 +18,11 @@ ion-card-title{
 }
 
 ion-card{
-  background-color: rgba(255, 255, 255, 0.9);
-  width: 80%; /* Ajusta el ancho según tus necesidades */
-  max-width: 600px; /* Tamaño máximo en pantallas grandes */
-  height: 50%; /* Se ajusta automáticamente al contenido */
-  padding: 20px; /* Agrega un relleno interno para darle más espacio al contenido */
+  background-color: rgba(255, 255, 255, 0.95);
+  width: auto; 
+  max-width: 600px;
+  height: auto;
+  padding: 20px; 
   border: 2px solid;
   color: black;
   border-radius: 40px;

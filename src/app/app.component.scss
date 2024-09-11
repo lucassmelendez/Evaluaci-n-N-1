@@ -5,13 +5,13 @@ ion-menu {
           // Ajusta el padding del ion-item
           --color: #000000;
           --icon-color: #000000;
-          --padding-start: 20px; /* Aumenta el espacio al inicio (izquierda) */
-          --padding-end: 20px; /* Aumenta el espacio al final (derecha) */
-          --padding-top: 20px; /* Aumenta el espacio en la parte superior */
-          --padding-bottom: 20px; /* Aumenta el espacio en la parte inferior */
+          --padding-start: 30px; /* Aumenta el espacio al inicio (izquierda) */
+          --padding-end: 0px; /* Aumenta el espacio al final (derecha) */
+          --padding-top: 15px; /* Aumenta el espacio en la parte superior */
+          --padding-bottom: 15px; /* Aumenta el espacio en la parte inferior */
           
           // Ajusta el tamaño del texto
-          font-size: 22px; /* Aumenta el tamaño del texto */
+          font-size: 20px; /* Aumenta el tamaño del texto */
           
           // Ajusta el tamaño del ícono
           ion-icon {

@@ -19,28 +19,34 @@ export class AppComponent {
     private router: Router) {
   }
 
-  async salir(){
+  async salir() {
     const alert = await this.alertController.create({
       header: 'Salir',
-      message: 'Quieres salir?',
+      message: '¿Quieres salir?',
       buttons: [
         {
           text: 'No',
+          role: 'cancel',
           handler: () => {
-
+            // Acción en caso de que el usuario elija no salir
           }
-        },{
-          text: 'Si',
-          handler: () =>{
-            this.navCtrl.navigateRoot('login');
-            this.menu.close()
+        },
+        {
+          text: 'Sí',
+          handler: () => {
+            // Limpia los datos de autenticación en localStorage
+            localStorage.removeItem('usuario');
+            localStorage.removeItem('tipoUsuario');
+            
+            // Redirige al login y cierra el menú
+            this.navCtrl.navigateRoot('/login');
+            this.menu.close();  // Asegúrate de que `this.menu` está correctamente definido e inyectado
           }
         }
       ]
     });
-
+  
     await alert.present();
-
   }
 
   volver() {

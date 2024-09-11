@@ -11,7 +11,19 @@ export class NotfoundPage implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      this.navCtrl.navigateForward(['/login']);
+      this.redirectBasedOnUserType();
     }, 4500);
+  }
+
+  redirectBasedOnUserType() {
+    const tipoUsuario = localStorage.getItem('tipoUsuario');
+
+    if (tipoUsuario === 'alumno') {
+      this.navCtrl.navigateForward('/home-alumno');
+    } else if (tipoUsuario === 'profesor') {
+      this.navCtrl.navigateForward('/home-profe');
+    } else {
+      this.navCtrl.navigateForward('/login');
+    }
   }
 }

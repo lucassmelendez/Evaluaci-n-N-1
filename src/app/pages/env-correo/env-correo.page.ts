@@ -23,7 +23,7 @@ export class EnvCorreoPage implements OnInit {
     this.router.navigate(['/confirm-code']);
   }
 
-  goBack() {
+  volver() {
     this.navCtrl.back();
   }
 }

@@ -43,19 +43,34 @@ export class AppComponent {
 
   }
 
-  goBack() {
-    if (this.router.url == '/home') {
+  volver() {
+    if (this.router.url == '/home-profe' || this.router.url == '/home-alumno') {
       this.menu.close()
     }else{
       this.navCtrl.back();
       this.menu.close();
+    }                                                                                                                                                 
   }                                                                                                                                                 
-}                                                                                                                                                 
 
   navigateAndClose(route: string) {
     this.menu.close('main').then(() => {
-      this.router.navigate([route]);
-      this.menu.close()
+      const tipoUsuario = localStorage.getItem('tipoUsuario');
+
+      if (route === '/home') {
+        if (tipoUsuario === 'alumno') {
+          this.menu.close();
+          this.router.navigate(['/home-alumno']);
+        } else if (tipoUsuario === 'profesor') {
+          this.menu.close();
+          this.router.navigate(['/home-profe']);
+        } else {
+          console.error('Tipo de usuario no encontrado');
+          this.router.navigate(['/login']);
+       }
+     } else {
+        this.menu.close();
+        this.router.navigate([route]);
+     }
     });
   }
 }

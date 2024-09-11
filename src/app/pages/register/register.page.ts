@@ -27,7 +27,7 @@ export class RegisterPage implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  goBack() {
+  volver() {
     this.navCtrl.back();
   }
 }

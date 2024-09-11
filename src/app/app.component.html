@@ -11,20 +11,19 @@
 
     <ion-content>
       <ion-list>
-        <!-- Botón para volver atrás -->
         <ion-item lines="none" (click)="goBack()">
           <ion-icon slot="start" name="arrow-back-outline"></ion-icon> Volver
         </ion-item>
     
-        <ion-item lines="none" [routerLink]="['/home']">
+        <ion-item lines="none" (click)="navigateAndClose('/home')">
           <ion-icon slot="start" name="home-outline"></ion-icon> Inicio
         </ion-item>
     
-        <ion-item lines="none" [routerLink]="['/perfil']">
+        <ion-item lines="none" (click)="navigateAndClose('/perfil')">
           <ion-icon slot="start" name="person-outline"></ion-icon> Mi Perfil
         </ion-item>
     
-        <ion-item lines="none" [routerLink]="['/qr-profe']">
+        <ion-item lines="none" (click)="navigateAndClose('/qr_profe')">
           <ion-icon slot="start" name="qr-code"></ion-icon> QR
         </ion-item>
     

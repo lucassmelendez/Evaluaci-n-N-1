@@ -1,14 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>qr_profe</ion-title>
+    <ion-title>QR Profesor</ion-title>
     <ion-menu-button></ion-menu-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">qr_profe</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="center-content">
+    <img src="../../../assets/img/QRfondo.png" alt="Imagen" class="center-image" />
+    <ion-button expand="full" routerLink="/asistencia-alumn" class="bottom-button">Generar QR</ion-button>
+  </div>
 </ion-content>

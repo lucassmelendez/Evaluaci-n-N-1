@@ -90,7 +90,23 @@ const routes: Routes = [
   {/*esto debe ir al final*/
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
+  },  {
+    path: 'materia-alumn',
+    loadChildren: () => import('./pages/materia-alumn/materia-alumn.module').then( m => m.MateriaAlumnPageModule)
   },
+  {
+    path: 'check-qr-alumn',
+    loadChildren: () => import('./pages/check-qr-alumn/check-qr-alumn.module').then( m => m.CheckQrAlumnPageModule)
+  },
+  {
+    path: 'check-alumn',
+    loadChildren: () => import('./pages/check-alumn/check-alumn.module').then( m => m.CheckAlumnPageModule)
+  },
+  {
+    path: 'ver-lista',
+    loadChildren: () => import('./pages/ver-lista/ver-lista.module').then( m => m.VerListaPageModule)
+  },
+
 ];
 
 @NgModule({

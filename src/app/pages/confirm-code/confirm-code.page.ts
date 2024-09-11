@@ -21,7 +21,13 @@ export class ConfirmCodePage implements OnInit {
   }
 
   EnviarCodigo(){
-    this.router.navigate(['/login']);
+    if (this.password !== this.password2) {
+      console.error('Las contraseñas no coinciden');
+      return;
+    }else{
+      console.log('contraseña cambiada correctamente');
+      this.router.navigate(['/login']);
+    }
   }
 
   goBack() {

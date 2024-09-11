@@ -7,12 +7,12 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-content>
-      <ion-input  [(ngModel)]="nombre" label="Nombre" labelPlacement="floating" fill="outline"></ion-input>
-      <ion-input  [(ngModel)]="apellido" label="Apellido" labelPlacement="floating" fill="outline"></ion-input> 
-      <ion-input  [(ngModel)]="edad" label="Edad" labelPlacement="floating" fill="outline"></ion-input> 
-      <ion-input  [(ngModel)]="correo" type="email" label="Correo" labelPlacement="floating" fill="outline"></ion-input> 
-      <ion-input  [(ngModel)]="password" type="password" label="Contraseña" labelPlacement="floating" fill="outline"></ion-input> 
-      <ion-input  [(ngModel)]="password2" type="password" label="Confirma tu contraseña" labelPlacement="floating" fill="outline"></ion-input> 
+      <ion-input [(ngModel)]="nombre" label="Nombre" labelPlacement="floating" fill="outline" required></ion-input>
+      <ion-input [(ngModel)]="apellido" label="Apellido" labelPlacement="floating" fill="outline" required></ion-input>
+      <ion-input [(ngModel)]="edad" label="Edad" labelPlacement="floating" fill="outline" required></ion-input>
+      <ion-input [(ngModel)]="correo" type="email" label="Correo" labelPlacement="floating" fill="outline" required></ion-input>
+      <ion-input [(ngModel)]="password" type="password" label="Contraseña" labelPlacement="floating" fill="outline" required></ion-input>
+      <ion-input [(ngModel)]="password2" type="password" label="Confirma tu contraseña" labelPlacement="floating" fill="outline" required></ion-input>
       <ion-button (click)="registrar()" size="block" color="warning">registrar</ion-button>
       <ion-button (click)="volver()" size="block" color="warning">volver</ion-button>
     </ion-card-content>

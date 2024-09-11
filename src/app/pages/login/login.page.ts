@@ -41,7 +41,7 @@ email: any;
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Login',
-      subHeader: 'Acceso al sistema agenda',
+      subHeader: '',
       message: 'Usuario o password incorrecto',
       buttons: ['Action'],
     });

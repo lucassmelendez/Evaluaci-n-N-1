@@ -1,19 +1,24 @@
-
 .button-container {
-display: flex;
-flex-direction: column;
-gap: 15px; /* Espacio entre los botones */
-padding: 20px;
-justify-content: center;
-align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;  
 }
-
-.custom-button {
-color: white; /* Color del texto en los botones */
-font-size: 20px; /* Tamaño texto */
-padding: 15px;
-
-&:hover {
-    --background: #bda435; /* Color pasar mouse*/
-}
+  
+  .custom-button {
+    --background: #ffd000;
+    --color: rgb(0, 0, 0);
+    font-size: 20px;
+    padding: 15px;
+    width: 100%; 
+    box-sizing: border-box;
+    border-radius: 4px; 
+    transition: background-color 0.3s; 
+    
+    &:hover {
+        --background: #fff700;  
+    }
 }

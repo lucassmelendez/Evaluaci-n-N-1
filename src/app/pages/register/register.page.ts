@@ -15,7 +15,7 @@ export class RegisterPage implements OnInit {
   
   nombre:string=''
   apellido:String=''
-  edad:Number
+  edad:number;
   correo:string=''
   password:string=''
   password2:string=''
@@ -23,11 +23,23 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
-  registrar(){
-    this.router.navigate(['/login']);
+  registrar() {
+    if (this.password !== this.password2) {
+      console.error('Las contraseñas no coinciden');
+      return;
+    }
+    localStorage.setItem('usuario', JSON.stringify({
+      nombre: this.nombre,
+      apellido: this.apellido,
+      edad: this.edad,
+      correo: this.correo,
+      password: this.password
+    }));
+    console.log('Registro exitoso');
+    this.navCtrl.navigateForward('/login'); 
   }
 
   volver() {
-    this.navCtrl.back();
+    this.navCtrl.navigateBack('/login');
   }
 }

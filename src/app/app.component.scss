@@ -1,0 +1,29 @@
+ion-menu {
+    ion-content {
+      ion-list {
+        ion-item {
+          // Ajusta el padding del ion-item
+          --color: #000000;
+          --icon-color: #000000;
+          --padding-start: 20px; /* Aumenta el espacio al inicio (izquierda) */
+          --padding-end: 20px; /* Aumenta el espacio al final (derecha) */
+          --padding-top: 20px; /* Aumenta el espacio en la parte superior */
+          --padding-bottom: 20px; /* Aumenta el espacio en la parte inferior */
+          
+          // Ajusta el tamaño del texto
+          font-size: 22px; /* Aumenta el tamaño del texto */
+          
+          // Ajusta el tamaño del ícono
+          ion-icon {
+            font-size: 28px; /* Aumenta el tamaño del ícono */
+          }
+          
+          
+          // Estilo para el estado hover
+          &:hover {
+            --background: #e0e0e0; /* Color de fondo al pasar el mouse */
+          }
+        }
+      }
+    }
+  }

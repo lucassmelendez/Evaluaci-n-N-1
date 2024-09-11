@@ -90,13 +90,14 @@ const routes: Routes = [
   {/*esto debe ir al final*/
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
-  },  {
+  },
+  {
     path: 'materia-alumn',
     loadChildren: () => import('./pages/materia-alumn/materia-alumn.module').then( m => m.MateriaAlumnPageModule)
   },
   {
-    path: 'check-qr-alumn',
-    loadChildren: () => import('./pages/check-qr-alumn/check-qr-alumn.module').then( m => m.CheckQrAlumnPageModule)
+    path: 'chek-qr-alumn',
+    loadChildren: () => import('./pages/chek-qr-alumno/chek-qr-alumno.module').then( m => m.ChekQRAlumnoPageModule)
   },
   {
     path: 'check-alumn',

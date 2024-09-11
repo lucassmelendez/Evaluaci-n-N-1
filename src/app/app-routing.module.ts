@@ -87,10 +87,6 @@ const routes: Routes = [
     path: 'por-asistencia-curso',
     loadChildren: () => import('./pages/por-asistencia-curso/por-asistencia-curso.module').then( m => m.PorAsistenciaCursoPageModule)
   },
-  {/*esto debe ir al final*/
-    path: '**',
-    loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
-  },
   {
     path: 'materia-alumn',
     loadChildren: () => import('./pages/materia-alumn/materia-alumn.module').then( m => m.MateriaAlumnPageModule)
@@ -107,6 +103,10 @@ const routes: Routes = [
     path: 'ver-lista',
     loadChildren: () => import('./pages/ver-lista/ver-lista.module').then( m => m.VerListaPageModule)
   },
+    {/*esto debe ir al final*/
+      path: '**',
+      loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
+    },
 
 ];
 

@@ -99,10 +99,6 @@ const routes: Routes = [
     path: 'check-alumn',
     loadChildren: () => import('./pages/check-alumn/check-alumn.module').then( m => m.CheckAlumnPageModule)
   },
-  {
-    path: 'ver-lista',
-    loadChildren: () => import('./pages/ver-lista/ver-lista.module').then( m => m.VerListaPageModule)
-  },
     {/*esto debe ir al final*/
       path: '**',
       loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)

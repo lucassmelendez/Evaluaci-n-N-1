@@ -1,14 +1,15 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>materia-alumn</ion-title>
-  </ion-toolbar>
-</ion-header>
+
 
 <ion-content [fullscreen]="true">
-      <h2>Matematicas: ??%</h2> 
-      <h2>Ciencias Naturales: ??% </h2> 
-      <h2>Historia:  ??%</h2> 
-      <h2>Lenguaje:  ??%</h2> 
-      <h2>Educación Fisica:  ??%</h2> 
-      <h2>Ingles:  ??%</h2> 
+  <div class="attendance-container">
+    <ion-list>
+      <ion-item *ngFor="let materias of materias">
+          <ion-label class="materias-info">
+            <h2>{{ materias.name }}</h2>
+            <p>Asistencia: {{ materias.attendance }}%</p>
+          </ion-label>
+          <ion-progress-bar value="{{ materias.attendance / 100 }}" class="attendance-bar"></ion-progress-bar>
+        </ion-item>
+    </ion-list>
+  </div> 
 </ion-content>

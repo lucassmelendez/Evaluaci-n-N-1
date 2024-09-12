@@ -23,32 +23,31 @@ export class RegisterPage implements OnInit {
   ngOnInit() {}
 
   async registrar() {
-    // Validaciones de negocio
-    if (!this.nombre.trim()||this.nombre.length<=3) {
-      await this.showAlert('Error', 'El nombre no es valido (3 caracteres o más)');
+    if (!this.nombre.trim() || this.nombre.length <= 3 || /\d/.test(this.nombre) || /\s/.test(this.nombre)) {
+      await this.showAlert('Error', 'El nombre no es válido (3 caracteres o más, sin números ni espacios)');
       return;
     }
-
-    if (!this.apellido.trim()||this.apellido.length<=3) {
-      await this.showAlert('Error', 'El apellido no es valido (3 caracteres o más)');
+  
+    if (!this.apellido.trim() || this.apellido.length <= 3 || /\d/.test(this.apellido) || /\s/.test(this.apellido)) {
+      await this.showAlert('Error', 'El apellido no es válido (3 caracteres o más, sin números ni espacios)');
       return;
     }
-
+  
     if (!this.edad || this.edad < 16) {
-      await this.showAlert('Error', 'La edad igresada debe ser de +17');
+      await this.showAlert('Error', 'La edad ingresada debe ser de 17 años o más');
       return;
     }
-
+  
     if (!this.correo || !this.validarCorreo(this.correo)) {
       await this.showAlert('Error', 'Debes ingresar un correo válido con un dominio de DuocUC');
       return;
     }
-
-    if (!this.password || this.password.length <= 3) {
+  
+    if (!this.password || this.password.length <= 2) {
       await this.showAlert('Error', 'La contraseña debe tener al menos 3 caracteres');
       return;
     }
-
+  
     if (this.password !== this.password2) {
       await this.showAlert('Error', 'Las contraseñas no coinciden');
       return;

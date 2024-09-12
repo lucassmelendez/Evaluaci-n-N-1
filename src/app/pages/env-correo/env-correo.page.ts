@@ -1,7 +1,6 @@
-import { ConfirmCodePage } from './../confirm-code/confirm-code.page';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-env-correo',
@@ -10,20 +9,52 @@ import { NavController } from '@ionic/angular';
 })
 export class EnvCorreoPage implements OnInit {
 
-  constructor(private router: Router,
-    public navCtrl: NavController,) { }
-  
-  correo:string=''
+  correo: string = '';
+
+  constructor(
+    private router: Router,
+    public navCtrl: NavController,
+    private alertController: AlertController
+  ) { }
+  ngOnInit() {}
 
 
-  ngOnInit() {
+  validarCorreo(correo: string): boolean {
+    const formatoCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!formatoCorreo.test(correo)) {
+      return false;
+    }
+
+
+    const dominioValido = correo.endsWith('@duocuc.cl') || correo.endsWith('@profesor.duoc.cl');
+    return dominioValido;
   }
 
-  EnviarCodigo(){
+  async EnviarCodigo() {
+
+    if (!this.correo || !this.validarCorreo(this.correo)) {
+      await this.showAlert('Error', 'Debes ingresar un correo válido con un dominio de DuocUC o Profesor Duoc.');
+      return;
+    }
+
+    localStorage.setItem('enviar-codigo', JSON.stringify({
+      correo: this.correo,
+    }));
+
     this.router.navigate(['/confirm-code']);
   }
 
   volver() {
     this.navCtrl.back();
+  }
+
+
+  async showAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 }

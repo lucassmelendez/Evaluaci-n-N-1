@@ -33,7 +33,7 @@ export class RegisterPage implements OnInit {
       return;
     }
   
-    if (!this.edad || this.edad < 16) {
+    if (!this.edad || this.edad < 17 ||  this.edad > 100) {
       await this.showAlert('Error', 'La edad ingresada debe ser de 17 años o más');
       return;
     }

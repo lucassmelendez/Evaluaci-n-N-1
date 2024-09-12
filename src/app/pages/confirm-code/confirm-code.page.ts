@@ -16,7 +16,7 @@ export class ConfirmCodePage implements OnInit {
   constructor(
     private router: Router,
     public navCtrl: NavController,
-    private alertController: AlertController // Importa AlertController
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {}

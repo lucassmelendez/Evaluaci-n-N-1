@@ -28,19 +28,16 @@ export class AppComponent {
           text: 'No',
           role: 'cancel',
           handler: () => {
-            // Acción en caso de que el usuario elija no salir
           }
         },
         {
           text: 'Sí',
           handler: () => {
-            // Limpia los datos de autenticación en localStorage
             localStorage.removeItem('usuario');
             localStorage.removeItem('tipoUsuario');
             
-            // Redirige al login y cierra el menú
             this.navCtrl.navigateRoot('/login');
-            this.menu.close();  // Asegúrate de que `this.menu` está correctamente definido e inyectado
+            this.menu.close(); 
           }
         }
       ]

@@ -1,25 +1,27 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>env_correo</ion-title>
+    <ion-title>Recuperar Contraseña</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card>
-    <ion-card-content>
-      <ion-input
-        [(ngModel)]="correo"
-        type="email"
-        label="Ingresa tu correo"
-        labelPlacement="floating"
-        fill="outline"
-      ></ion-input>
-      <ion-button (click)="EnviarCodigo()" size="block" color="warning"
-        >Enviar codigo</ion-button
-      >
-      <ion-button (click)="volver()" size="block" color="warning"
-        >volver</ion-button
-      >
-    </ion-card-content>
-  </ion-card>
+  <div class="background-container">
+    <ion-card>
+      <ion-card-content>
+        <ion-input
+          [(ngModel)]="correo"
+          type="email"
+          label="Ingresa tu correo"
+          labelPlacement="floating"
+          fill="outline"
+        ></ion-input>
+        <ion-button (click)="EnviarCodigo()" size="block" color="warning"
+          >Enviar codigo</ion-button
+        >
+        <ion-button (click)="volver()" size="block" color="warning"
+          >volver</ion-button
+        >
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

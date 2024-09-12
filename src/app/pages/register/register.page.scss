@@ -1,3 +1,11 @@
+ion-header{
+    ion-title{
+        filter: opacity(0.8);
+        text-align: center;
+        color:black;
+    }
+}
+
 .button-container {
     display: flex;
     flex-direction: column;
@@ -7,7 +15,7 @@
     align-items: center;
     height: 70vh;  
     position: relative; 
-    z-index: 10;  
+    z-index: 1;   
 }
   
 .custom-button {
@@ -35,7 +43,6 @@
     height: 100%;
     width: 100%;
     position: relative;
-    overflow: hidden;
 }
   
 .background-container::before {
@@ -64,7 +71,8 @@ ion-card{
     border-radius: 40px;
     margin: 0 auto;
     align-content: center;
-    z-index: 5;
-    overflow: hidden;
 }
-
+ion-input {
+    width: 100%;
+    box-sizing: border-box;
+}

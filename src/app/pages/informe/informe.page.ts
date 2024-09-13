@@ -62,7 +62,7 @@ export class InformePage implements OnInit {
   async alertaPDF() {
     const alert = await this.alertController.create({
       header: 'Éxito',
-      message: 'Descarga en PDF exitosa',
+      message: 'Descarga en formato PDF exitosa',
       buttons: ['OK'],
     });
     await alert.present();
@@ -75,7 +75,7 @@ export class InformePage implements OnInit {
   async alertaXLS() {
     const alert = await this.alertController.create({
       header: 'Éxito',
-      message: 'Descarga en EXCEL exitosa',
+      message: 'Descarga en formato XLS exitosa',
       buttons: ['OK'],
     });
     await alert.present();

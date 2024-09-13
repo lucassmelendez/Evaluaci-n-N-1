@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-asistencia-alumn',
@@ -31,7 +32,8 @@ export class AsistenciaAlumnPage implements OnInit {
     { name: 'José María', attendance: 80, present: false },
   ];
 
-  constructor(private alertController: AlertController) { }
+  constructor(private alertController: AlertController,
+              private navCtrl:NavController) { }
 
   ngOnInit() {
   }
@@ -46,5 +48,8 @@ export class AsistenciaAlumnPage implements OnInit {
       buttons: ['OK'],
     });
     await alert.present();
+    setTimeout(()=>{
+      this.navCtrl.navigateForward(['/home-profe']) 
+    },2000)
   }
 }

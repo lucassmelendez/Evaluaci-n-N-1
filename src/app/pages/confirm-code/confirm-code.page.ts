@@ -50,6 +50,8 @@ export class ConfirmCodePage implements OnInit {
         message: 'La contraseña se ha cambiado correctamente',
         buttons: ['OK']
       });  
+      await successAlert.present();
+      this.navCtrl.navigateForward(['/login'])
     }
     localStorage.setItem('cambio-contraseña', JSON.stringify({
       password: this.password2,

@@ -22,7 +22,21 @@ export class ConfirmCodePage implements OnInit {
   ngOnInit() {}
 
   async EnviarCodigo() {
-    if (this.password !== this.password2) {
+    if(!this.codigo || this.codigo.trim() === ''){
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Ingrese un codigo',
+        buttons: ['OK']
+      });
+      await alert.present();
+    }else if(!this.password || this.password.trim() === ''){
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Ingrese una contraseña',
+        buttons: ['OK']
+      });
+      await alert.present();
+    }else if (this.password !== this.password2) {
       const alert = await this.alertController.create({
         header: 'Error',
         message: 'Las contraseñas no coinciden',
@@ -35,9 +49,7 @@ export class ConfirmCodePage implements OnInit {
         header: 'Éxito',
         message: 'La contraseña se ha cambiado correctamente',
         buttons: ['OK']
-      });
-      await successAlert.present();
-      this.router.navigate(['/login']);
+      });  
     }
     localStorage.setItem('cambio-contraseña', JSON.stringify({
       password: this.password2,

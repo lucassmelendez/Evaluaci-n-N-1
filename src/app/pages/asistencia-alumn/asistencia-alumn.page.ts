@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-asistencia-alumn',
@@ -30,12 +31,20 @@ export class AsistenciaAlumnPage implements OnInit {
     { name: 'José María', attendance: 80, present: false },
   ];
 
-  constructor() { }
+  constructor(private alertController: AlertController) { }
 
   ngOnInit() {
   }
 
   togglePresence(student: any) {
     student.present = !student.present;
+  }
+
+  async ConfirmarAsistencia() {
+    const alert = await this.alertController.create({
+      message: 'Asistencia registrada exitosamente',
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 }

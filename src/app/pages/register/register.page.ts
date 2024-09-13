@@ -39,7 +39,7 @@ export class RegisterPage implements OnInit {
     }
   
     if (!this.correo || !this.validarCorreo(this.correo)) {
-      await this.showAlert('Error', 'Debes ingresar un correo válido con un dominio de DuocUC');
+      await this.showAlert('Error', 'Debes ingresar un correo válido con un dominio de DuocUC Alumno');
       return;
     }
   
@@ -85,7 +85,7 @@ export class RegisterPage implements OnInit {
       return false; 
     }
 
-    const dominioValido = correo.endsWith('@duocuc.cl') || correo.endsWith('@profesor.duoc.cl');
+    const dominioValido = correo.endsWith('@duocuc.cl');
     return dominioValido;
   }
 }

@@ -21,19 +21,36 @@ email: any;
     const tipoUsuario = localStorage.getItem('tipoUsuario');
   }
 
-  validar() {
+  async validar() {
     if (this.nombre.includes('@duocuc.cl') && this.nombre === 'a@duocuc.cl' && this.password === '123') {
-      console.log("Bienvenido Alumno");
+      const alert = await this.alertController.create({
+        header: 'Bienvenido Alumno',
+        subHeader: '',
+        message: 'Has ingresado correctamente',
+        buttons: ['OK'],
+      });
+      await alert.present();
       localStorage.setItem("usuario", this.nombre);
       localStorage.setItem("tipoUsuario", "alumno"); 
       this.navCtrl.navigateForward(['/home-alumno']); 
     } else if (this.nombre.includes('@profesor.duoc.cl') && this.nombre === 'p@profesor.duoc.cl' && this.password === '123') {
-      console.log("Bienvenido Profesor");
+      const alert = await this.alertController.create({
+        header: 'Bienvenido Profesor',
+        subHeader: '',
+        message: 'Has ingresado correctamente',
+        buttons: ['OK'],
+      });
+      await alert.present();
       localStorage.setItem("usuario", this.nombre);
       localStorage.setItem("tipoUsuario", "profesor"); 
       this.navCtrl.navigateForward(['/home-profe']);
     } else {
-      console.log("Usuario/Password Incorrecto");
+      const alert = await this.alertController.create({
+        header: 'Login',
+        subHeader: '',
+        message: 'Bienvenido',
+        buttons: ['OK'],
+      });
       this.presentAlert();
     }
   }
@@ -43,7 +60,7 @@ email: any;
       header: 'Login',
       subHeader: '',
       message: 'Usuario o password incorrecto',
-      buttons: ['Action'],
+      buttons: ['OK'],
     });
 
     await alert.present();

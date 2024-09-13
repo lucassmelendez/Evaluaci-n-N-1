@@ -31,7 +31,7 @@ export class InformePage implements OnInit {
     { name: 'Jose Maria', attendance: 80 },
   ];
 
-  constructor(private alertCtrl:AlertController) {}
+  constructor(private alertController: AlertController) {}
 
   ngOnInit() {   
   }
@@ -40,24 +40,52 @@ export class InformePage implements OnInit {
       text: 'PDF',
       role: 'pdf',
       handler: () => {
-        console.log('Descarga en PDF');
+        this.mostrarPDF('Has seleccionado PDF');
       },
     },
     {
       text: 'XLS',
       role: 'xls',
       handler: () => {
-        console.log('Descarga en XLS');
+        this.mostrarXLS('Has seleccionado XLS');
       },
     },
     {
       text: 'CANCELAR',
-      role: 'cancelar',
+      role: 'cancel',
       handler: () => {
-        console.log('Alert cancel');
+        console.log('cancelar')
       },
     },
   ];
 
+  async alertaPDF() {
+    const alert = await this.alertController.create({
+      header: 'Éxito',
+      message: 'Descarga en PDF exitosa',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
+
+  mostrarPDF(message: string) {
+    this.alertaPDF();
+  }
+
+  async alertaXLS() {
+    const alert = await this.alertController.create({
+      header: 'Éxito',
+      message: 'Descarga en EXCEL exitosa',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
+
+  mostrarXLS(message: string) {
+    this.alertaXLS();
+  }
+
 }
+
+
 

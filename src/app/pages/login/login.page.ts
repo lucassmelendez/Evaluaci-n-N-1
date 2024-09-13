@@ -8,61 +8,68 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-email: any;
-  
-  constructor(private alertController: AlertController,
+  email: string = '';  // Adaptado al HTML para usar "email" en lugar de "nombre"
+  password: string = '';
+
+  constructor(
+    private alertController: AlertController,
     private navCtrl: NavController
   ) { }
 
-  nombre:string=''
-  password:string=''
-
-  ngOnInit() {
-    const tipoUsuario = localStorage.getItem('tipoUsuario');
-  }
+  ngOnInit() {}
 
   async validar() {
-    if (this.nombre.includes('@duocuc.cl') && this.nombre === 'a@duocuc.cl' && this.password === '123') {
-      const alert = await this.alertController.create({
-        header: 'Bienvenido Alumno',
-        subHeader: '',
-        message: 'Has ingresado correctamente',
-        buttons: ['OK'],
-      });
-      await alert.present();
-      localStorage.setItem("usuario", this.nombre);
-      localStorage.setItem("tipoUsuario", "alumno"); 
-      this.navCtrl.navigateForward(['/home-alumno']); 
-    } else if (this.nombre.includes('@profesor.duoc.cl') && this.nombre === 'p@profesor.duoc.cl' && this.password === '123') {
-      const alert = await this.alertController.create({
-        header: 'Bienvenido Profesor',
-        subHeader: '',
-        message: 'Has ingresado correctamente',
-        buttons: ['OK'],
-      });
-      await alert.present();
-      localStorage.setItem("usuario", this.nombre);
-      localStorage.setItem("tipoUsuario", "profesor"); 
-      this.navCtrl.navigateForward(['/home-profe']);
+    // Obtener el valor de 'usuario' de localStorage
+    const usuarioData = localStorage.getItem('usuario');
+
+    // Verificar si 'usuarioData' es nulo o vacío antes de hacer JSON.parse
+    if (usuarioData) {
+      const usuario = JSON.parse(usuarioData);
+
+      // Verificar el correo y la contraseña
+      if (this.email === usuario.correo && this.password === usuario.password) {
+        let tipoUsuario = '';
+
+        // Identificar si es alumno o profesor (solo verificamos dominios de correo específicos)
+        if (this.email.includes('@duocuc.cl')) {
+          tipoUsuario = 'alumno';
+          localStorage.setItem("tipoUsuario", tipoUsuario);
+          await this.showAlert('Bienvenido Alumno', 'Has ingresado correctamente');
+          this.navCtrl.navigateForward(['/home-alumno']);
+        } else if (this.email.includes('@profesor.duoc.cl')) {
+          tipoUsuario = 'profesor';
+          localStorage.setItem("tipoUsuario", tipoUsuario);
+          await this.showAlert('Bienvenido Profesor', 'Has ingresado correctamente');
+          this.navCtrl.navigateForward(['/home-profe']);
+        }
+
+        // Guardar el correo del usuario en localStorage
+        localStorage.setItem("usuario", usuario.correo);
+      } else {
+        await this.presentAlert('Usuario o password incorrecto');
+      }
     } else {
-      const alert = await this.alertController.create({
-        header: 'Login',
-        subHeader: '',
-        message: 'Bienvenido',
-        buttons: ['OK'],
-      });
-      this.presentAlert();
+      // Si no hay datos en localStorage, mostrar un mensaje de error
+      await this.presentAlert('No hay registros de usuario. Regístrate primero.');
     }
   }
-  
-  async presentAlert() {
+
+  async showAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
+
+  async presentAlert(message: string) {
     const alert = await this.alertController.create({
       header: 'Login',
       subHeader: '',
-      message: 'Usuario o password incorrecto',
+      message,
       buttons: ['OK'],
     });
-
     await alert.present();
   }
 }

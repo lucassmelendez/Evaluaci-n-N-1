@@ -12,7 +12,7 @@ export class CheckAlumnPage implements OnInit {
 
   ngOnInit() { 
     setTimeout(()=>{
-      this.navCtrl.navigateForward(['/asistencia-alumn']) 
+      this.navCtrl.navigateForward(['/asis-alumn']) 
     },2300)
   }
 }

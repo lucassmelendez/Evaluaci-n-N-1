@@ -5,15 +5,28 @@
     </ion-card-header>
     <br>
     <ion-card-content>
-      <ion-input  [(ngModel)]="nombre" type="email" label="Correo" labelPlacement="floating" fill="outline">
-        <ion-icon  slot="start" color="black" size="large" name="mail"></ion-icon>        
-      </ion-input>
+      <!-- Input para el correo -->
+      <ion-label position="floating" class="label-texto">Correo</ion-label>
+      <ion-item>
+        <ion-input [(ngModel)]="email" type="email" fill="outline">
+          <ion-icon slot="start" color="black" size="large" name="mail"></ion-icon>
+        </ion-input>
+      </ion-item>
       <br>
-      <ion-input [(ngModel)]="password" type="password" label="Contraseña" labelPlacement="stacked" fill="outline">
-        <ion-icon slot="start" color="black" size="large" name="lock-closed"></ion-icon>
-      </ion-input>
+
+      <!-- Input para la contraseña -->
+      <ion-label position="floating" class="label-texto">Contraseña</ion-label>
+      <ion-item>
+        <ion-input [(ngModel)]="password" type="password" fill="outline">
+          <ion-icon slot="start" color="black" size="large" name="lock-closed"></ion-icon>
+        </ion-input>
+      </ion-item>
       <br>
+
+      <!-- Botón para iniciar sesión -->
       <ion-button (click)="validar()" size="block" color="warning">Iniciar</ion-button>
+      
+      <!-- Enlaces para registrarse o recuperar contraseña -->
       <p class="registro">
         No tienes una cuenta? <a href="/register" class="enlace-recuperacion">Regístrate</a>
       </p>

@@ -19,6 +19,14 @@ export class LoginPage implements OnInit {
   ngOnInit() {}
 
   async validar() {
+    // Verificar credenciales de la cuenta específica del profesor
+    if (this.email === 'p@profesor.duoc.cl' && this.password === '123') {
+      localStorage.setItem("tipoUsuario", 'profesor');
+      await this.showAlert('Bienvenido Profesor', 'Has ingresado correctamente');
+      this.navCtrl.navigateForward(['/home-profe']);
+      return;  // Salir del método para evitar verificaciones adicionales
+    }
+
     // Obtener el valor de 'usuario' de localStorage
     const usuarioData = localStorage.getItem('usuario');
 

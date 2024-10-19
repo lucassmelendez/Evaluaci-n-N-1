@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -13,17 +14,22 @@ export class LoginPage implements OnInit {
 
   constructor(
     private alertController: AlertController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private menuCtrl: MenuController,
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.menuCtrl.enable(false);
+  }
 
   async validar() {
     // Verificar credenciales de la cuenta específica del profesor
     if (this.email === 'p@profesor.duoc.cl' && this.password === '123') {
       localStorage.setItem("tipoUsuario", 'profesor');
+      this.menuCtrl.enable(true);
       await this.showAlert('Bienvenido Profesor', 'Has ingresado correctamente');
       this.navCtrl.navigateForward(['/home-profe']);
+      this.menuCtrl.enable(true);
       return;  // Salir del método para evitar verificaciones adicionales
     }
 
@@ -44,11 +50,13 @@ export class LoginPage implements OnInit {
           localStorage.setItem("tipoUsuario", tipoUsuario);
           await this.showAlert('Bienvenido Alumno', 'Has ingresado correctamente');
           this.navCtrl.navigateForward(['/home-alumno']);
+          this.menuCtrl.enable(true);
         } else if (this.email.includes('@profesor.duoc.cl')) {
           tipoUsuario = 'profesor';
           localStorage.setItem("tipoUsuario", tipoUsuario);
           await this.showAlert('Bienvenido Profesor', 'Has ingresado correctamente');
           this.navCtrl.navigateForward(['/home-profe']);
+          this.menuCtrl.enable(true);
         }
 
         // Guardar el correo del usuario en localStorage

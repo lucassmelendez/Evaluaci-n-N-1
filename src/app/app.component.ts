@@ -37,6 +37,7 @@ export class AppComponent {
             localStorage.removeItem('tipoUsuario');
             
             this.navCtrl.navigateRoot('/login');
+            this.menu.enable(false);
             this.menu.close(); 
           }
         }

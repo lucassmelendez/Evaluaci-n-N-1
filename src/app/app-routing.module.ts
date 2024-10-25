@@ -94,11 +94,15 @@ const routes: Routes = [
   {
     path: 'asis-alumn',
     loadChildren: () => import('./pages/asis-alumn/asis-alumn.module').then( m => m.AsisAlumnPageModule)
+  },  
+  {
+    path: 'crudpersona',
+    loadChildren: () => import('./pages/crudpersona/crudpersona.module').then( m => m.CrudpersonaPageModule)
   },
   {/*esto debe ir al final*/
-      path: '**',
-      loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
-  },  
+    path: '**',
+    loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
+  }, 
 
 
 ];

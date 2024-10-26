@@ -4,6 +4,7 @@ import { NavController, AlertController } from '@ionic/angular';
 import { Alumno } from 'src/app/model/alumno';
 import { PersonasService } from 'src/app/servicios/personas.service';
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',

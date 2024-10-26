@@ -46,7 +46,7 @@ export class AsisAlumnPage implements OnInit {
   }
   eliminar(id:any){
     this.cp.eliminar(id).then(()=>{
-      alert("elimino")
+      alert("Se Elimino al Estudiante")
     }).catch((err)=>{
       console.log(err)
     })

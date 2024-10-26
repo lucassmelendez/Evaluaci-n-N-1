@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController, AlertController } from '@ionic/angular';
+import { Alumno } from 'src/app/model/alumno';
+import { PersonasService } from 'src/app/servicios/personas.service';
 
 @Component({
   selector: 'app-register',
@@ -9,60 +11,56 @@ import { NavController, AlertController } from '@ionic/angular';
 })
 export class RegisterPage implements OnInit {
 
-  nombre: string = '';
-  apellido: string = '';
-  edad: number;
-  correo: string = '';
-  password: string = '';
-  password2: string = '';
+  alumno: Alumno = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '' };
 
-  constructor(private router: Router,
-              public navCtrl: NavController,
-              private alertController: AlertController) { }
+  constructor(
+    private router: Router,
+    public navCtrl: NavController,
+    private alertController: AlertController,
+    private cp: PersonasService
+  ) {}
 
   ngOnInit() {}
 
   async registrar() {
-    if (!this.nombre.trim() || this.nombre.length <= 3 || /\d/.test(this.nombre) || /\s/.test(this.nombre)) {
+    if (!this.alumno.nombre.trim() || this.alumno.nombre.length < 3 || /\d/.test(this.alumno.nombre) || /\s/.test(this.alumno.nombre)) {
       await this.showAlert('Error', 'El nombre no es válido (3 caracteres o más, sin números ni espacios)');
       return;
     }
-  
-    if (!this.apellido.trim() || this.apellido.length <= 3 || /\d/.test(this.apellido) || /\s/.test(this.apellido)) {
+
+    if (!this.alumno.apellido.trim() || this.alumno.apellido.length <= 2 || /\d/.test(this.alumno.apellido) || /\s/.test(this.alumno.apellido)) {
       await this.showAlert('Error', 'El apellido no es válido (3 caracteres o más, sin números ni espacios)');
       return;
     }
-  
-    if (!this.edad || this.edad < 17 ||  this.edad > 100) {
+
+    if (!this.alumno.edad || this.alumno.edad < 17 || this.alumno.edad > 100) {
       await this.showAlert('Error', 'La edad ingresada debe ser de 17 años o más');
       return;
     }
-  
-    if (!this.correo || !this.validarCorreo(this.correo)) {
+
+    if (!this.alumno.correo || !this.validarCorreo(this.alumno.correo)) {
       await this.showAlert('Error', 'Debes ingresar un correo válido con un dominio de DuocUC Alumno');
       return;
     }
-  
-    if (!this.password || this.password.length <= 2) {
+
+    if (!this.alumno.password || this.alumno.password.length <= 2) {
       await this.showAlert('Error', 'La contraseña debe tener al menos 3 caracteres');
       return;
     }
-  
-    if (this.password !== this.password2) {
+
+    if (this.alumno.password !== this.alumno.password2) {
       await this.showAlert('Error', 'Las contraseñas no coinciden');
       return;
     }
 
-
-    localStorage.setItem('usuario', JSON.stringify({
-      nombre: this.nombre,
-      apellido: this.apellido,
-      edad: this.edad,
-      correo: this.correo,
-      password: this.password
-    }));
-    console.log('Registro exitoso');
-    this.navCtrl.navigateForward('/login');
+    
+    this.cp.grabar_alumno(this.alumno).then(() => {
+      this.showAlert('Éxito', 'Registro exitoso');
+      this.navCtrl.navigateForward('/login');
+    }).catch((err) => {
+      console.error(err);
+      this.showAlert('Error', 'Hubo un problema al registrar el alumno');
+    });
   }
 
   volver() {
@@ -79,13 +77,7 @@ export class RegisterPage implements OnInit {
   }
 
   validarCorreo(correo: string): boolean {
-  
     const formatoCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!formatoCorreo.test(correo)) {
-      return false; 
-    }
-
-    const dominioValido = correo.endsWith('@duocuc.cl');
-    return dominioValido;
+    return formatoCorreo.test(correo) && correo.endsWith('@duocuc.cl');
   }
 }

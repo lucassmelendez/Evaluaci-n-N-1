@@ -1,7 +1,9 @@
+// login.page.ts
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
-import { NavController } from '@ionic/angular';
-import { MenuController } from '@ionic/angular';
+import { AlertController, NavController, MenuController } from '@ionic/angular';
+import { PersonasService } from 'src/app/servicios/personas.service';
+import { Alumno } from 'src/app/model/alumno';
+import { Profesor } from 'src/app/model/profesor';
 
 @Component({
   selector: 'app-login',
@@ -9,64 +11,41 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  email: string = '';  // Adaptado al HTML para usar "email" en lugar de "nombre"
-  password: string = '';
+
+  alumno: Alumno = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '' };
+  profesor: Profesor = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '', curso: '' };
 
   constructor(
     private alertController: AlertController,
     private navCtrl: NavController,
     private menuCtrl: MenuController,
-  ) { }
+    private cp: PersonasService
+  ) {}
 
   ngOnInit() {
     this.menuCtrl.enable(false);
   }
 
   async validar() {
-    // Verificar credenciales de la cuenta específica del profesor
-    if (this.email === 'p@profesor.duoc.cl' && this.password === '123') {
-      localStorage.setItem("tipoUsuario", 'profesor');
-      this.menuCtrl.enable(true);
-      await this.showAlert('Bienvenido Profesor', 'Has ingresado correctamente');
-      this.navCtrl.navigateForward(['/home-profe']);
-      this.menuCtrl.enable(true);
-      return;  // Salir del método para evitar verificaciones adicionales
-    }
+    try {
+      const usuario = await this.cp.login(this.alumno.correo || this.profesor.correo, 
+                                           this.alumno.password || this.profesor.password);
 
-    // Obtener el valor de 'usuario' de localStorage
-    const usuarioData = localStorage.getItem('usuario');
-
-    // Verificar si 'usuarioData' es nulo o vacío antes de hacer JSON.parse
-    if (usuarioData) {
-      const usuario = JSON.parse(usuarioData);
-
-      // Verificar el correo y la contraseña
-      if (this.email === usuario.correo && this.password === usuario.password) {
-        let tipoUsuario = '';
-
-        // Identificar si es alumno o profesor (solo verificamos dominios de correo específicos)
-        if (this.email.includes('@duocuc.cl')) {
-          tipoUsuario = 'alumno';
-          localStorage.setItem("tipoUsuario", tipoUsuario);
-          await this.showAlert('Bienvenido Alumno', 'Has ingresado correctamente');
-          this.navCtrl.navigateForward(['/home-alumno']);
-          this.menuCtrl.enable(true);
-        } else if (this.email.includes('@profesor.duoc.cl')) {
-          tipoUsuario = 'profesor';
-          localStorage.setItem("tipoUsuario", tipoUsuario);
+      if (usuario) {
+        if ('curso' in usuario) {
           await this.showAlert('Bienvenido Profesor', 'Has ingresado correctamente');
           this.navCtrl.navigateForward(['/home-profe']);
-          this.menuCtrl.enable(true);
+        } else {
+          await this.showAlert('Bienvenido Alumno', 'Has ingresado correctamente');
+          this.navCtrl.navigateForward(['/home-alumno']);
         }
-
-        // Guardar el correo del usuario en localStorage
-        localStorage.setItem("usuario", usuario.correo);
+        this.menuCtrl.enable(true);
       } else {
-        await this.presentAlert('Usuario o password incorrecto');
+        await this.presentAlert('Usuario o contraseña incorrecto');
       }
-    } else {
-      // Si no hay datos en localStorage, mostrar un mensaje de error
-      await this.presentAlert('No hay registros de usuario. Regístrate primero.');
+    } catch (error) {
+      console.error("Error en la validación:", error);
+      await this.presentAlert('Ocurrió un error al iniciar sesión.');
     }
   }
 
@@ -82,7 +61,6 @@ export class LoginPage implements OnInit {
   async presentAlert(message: string) {
     const alert = await this.alertController.create({
       header: 'Login',
-      subHeader: '',
       message,
       buttons: ['OK'],
     });

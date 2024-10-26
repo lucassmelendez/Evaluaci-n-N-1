@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Alumno } from 'src/app/model/alumno';
+import { Persona } from 'src/app/model/Persona';
+import { PersonasService } from 'src/app/servicios/personas.service';
 
 @Component({
   selector: 'app-asis-alumn',
@@ -30,9 +33,23 @@ export class AsisAlumnPage implements OnInit {
     { name: 'José María', attendance: 80, present: false },
   ];
   
-  constructor() { }
+  constructor(private cp:PersonasService) { }
+
+  lista_alumno:Alumno[]=[]
 
   ngOnInit() {
+    this.listar()
+  }
+
+  listar(){
+    this.cp.listarTodo().subscribe(data=>{this.lista_alumno=data})
+  }
+  eliminar(id:any){
+    this.cp.eliminar(id).then(()=>{
+      alert("elimino")
+    }).catch((err)=>{
+      console.log(err)
+    })
   }
 
 }

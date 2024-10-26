@@ -23,4 +23,12 @@ export class CrudpersonaPage implements OnInit {
       console.log(err);
     })
   }
+
+  eliminar(id:any){
+    this.cp.eliminar(id).then(()=>{
+      alert("elimino")
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
 }

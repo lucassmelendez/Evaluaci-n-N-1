@@ -1,7 +1,6 @@
-
-body{
+body {
   background-image: url(../../../assets/img/QRfondo.png);
-  background-repeat: no-repeat ;
+  background-repeat: no-repeat;
   background-size: cover; 
   background-position: center;
   display: flex;
@@ -11,13 +10,13 @@ body{
   margin: 0;
 }
 
-ion-card-title{
+ion-card-title {
   text-align: center;
   font-weight: bold;
   font-size: 35px;
 }
 
-ion-card{
+ion-card {
   background-color: rgba(255, 255, 255, 0.95);
   width: auto; 
   max-width: 600px;
@@ -28,23 +27,23 @@ ion-card{
   border-radius: 40px;
 }
 
-ion-button{
+ion-button {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   padding: 3%;
 }
 
-.registro{
+.registro {
   text-align: center;
 }
 
-.colorlogin{
+.colorlogin {
   font-size: 45px;
   color: rgb(255, 234, 0);
   text-shadow: 
-  1px 1px 0 black,
-  -1px 1px 0 black,
-  1px -1px 0 black,
-  -1px -1px 0 black;;
+    1px 1px 0 black,
+    -1px 1px 0 black,
+    1px -1px 0 black,
+    -1px -1px 0 black;
 }
 
 .label-texto {

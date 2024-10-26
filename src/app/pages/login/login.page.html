@@ -6,26 +6,24 @@
     <br>
     <ion-card-content>
       <!-- Input para el correo -->
-      <ion-label position="floating" class="label-texto">Correo</ion-label>
       <ion-item>
-        <ion-input [(ngModel)]="email" type="email" fill="outline">
-          <ion-icon slot="start" color="black" size="large" name="mail"></ion-icon>
-        </ion-input>
+        <ion-icon slot="start" color="black" size="large" name="mail"></ion-icon>
+        <ion-label position="floating" class="label-texto">Correo</ion-label>
+        <ion-input [(ngModel)]="alumno.correo" type="email" fill="outline"></ion-input>
       </ion-item>
       <br>
 
       <!-- Input para la contraseña -->
-      <ion-label position="floating" class="label-texto">Contraseña</ion-label>
       <ion-item>
-        <ion-input [(ngModel)]="password" type="password" fill="outline">
-          <ion-icon slot="start" color="black" size="large" name="lock-closed"></ion-icon>
-        </ion-input>
+        <ion-icon slot="start" color="black" size="large" name="lock-closed"></ion-icon>
+        <ion-label position="floating" class="label-texto">Contraseña</ion-label>
+        <ion-input [(ngModel)]="alumno.password" type="password" fill="outline"></ion-input>
       </ion-item>
       <br>
 
       <!-- Botón para iniciar sesión -->
       <ion-button (click)="validar()" size="block" color="warning">Iniciar</ion-button>
-      
+
       <!-- Enlaces para registrarse o recuperar contraseña -->
       <p class="registro">
         No tienes una cuenta? <a href="/register" class="enlace-recuperacion">Regístrate</a>

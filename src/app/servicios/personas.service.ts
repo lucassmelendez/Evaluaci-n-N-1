@@ -109,5 +109,27 @@ export class PersonasService {
       throw error; 
     }
   }
+  async getUsuarioActual(email: string): Promise<Alumno | Profesor | null> {
+    try {
+      const alumnoSnapshot = await this.afs.collection<Alumno>('alumno', ref =>
+        ref.where('correo', '==', email)).get().toPromise();
+  
+      if (alumnoSnapshot && !alumnoSnapshot.empty) {
+        return alumnoSnapshot.docs[0].data() as Alumno;
+      }
+  
+      const profesorSnapshot = await this.afs.collection<Profesor>('profesor', ref =>
+        ref.where('correo', '==', email)).get().toPromise();
+  
+      if (profesorSnapshot && !profesorSnapshot.empty) {
+        return profesorSnapshot.docs[0].data() as Profesor;
+      }
+  
+      return null;
+    } catch (error) {
+      console.error("Error al obtener el usuario actual:", error);
+      return null;
+    }
+  }
   
 }

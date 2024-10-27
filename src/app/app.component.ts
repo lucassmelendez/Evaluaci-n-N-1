@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { PersonasService } from './servicios/personas.service';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +13,13 @@ export class AppComponent {
 
   login:boolean=false;
 
-  constructor(private modalController: ModalController,
+  constructor(
+    private modalController: ModalController,
     public alertController: AlertController,
     public navCtrl: NavController,
     private menu: MenuController,
-    private router: Router) {
+    private router: Router,
+    private cp: PersonasService) {
   }
 
   async salir() {
@@ -56,25 +59,29 @@ export class AppComponent {
     }                                                                                                                                                 
   }                                                                                                                                                 
 
-  navigateAndClose(route: string) {
-    this.menu.close('main').then(() => {
-      const tipoUsuario = localStorage.getItem('tipoUsuario');
-
+  async navigateAndClose(route: string) {
+    this.menu.close('main').then(async () => {
+      const email = localStorage.getItem('usuario'); // Obtiene el correo del usuario de localStorage
+      let usuario = null;
+  
+      if (email) {
+        usuario = await this.cp.getUsuarioActual(email); // Pasa el correo al método
+      }
+  
       if (route === '/home') {
-        if (tipoUsuario === 'alumno') {
-          this.menu.close();
-          this.router.navigate(['/home-alumno']);
-        } else if (tipoUsuario === 'profesor') {
-          this.menu.close();
-          this.router.navigate(['/home-profe']);
+        if (usuario) {
+          if ('curso' in usuario) {
+            this.router.navigate(['/home-profe']);
+          } else {
+            this.router.navigate(['/home-alumno']);
+          }
         } else {
           console.error('Tipo de usuario no encontrado');
           this.router.navigate(['/login']);
-       }
-     } else {
-        this.menu.close();
+        }
+      } else {
         this.router.navigate([route]);
-     }
+      }
     });
   }
 }

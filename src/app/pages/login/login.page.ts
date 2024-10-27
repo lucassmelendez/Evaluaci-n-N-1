@@ -30,8 +30,10 @@ export class LoginPage implements OnInit {
     try {
       const usuario = await this.cp.login(this.alumno.correo || this.profesor.correo, 
                                            this.alumno.password || this.profesor.password);
-
+  
       if (usuario) {
+        localStorage.setItem('usuario', usuario.correo);
+        
         if ('curso' in usuario) {
           await this.showAlert('Bienvenido Profesor', 'Has ingresado correctamente');
           this.navCtrl.navigateForward(['/home-profe']);

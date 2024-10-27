@@ -6,8 +6,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="center-content">
-    <img src="../../../assets/img/QRfondo.png" alt="Imagen" class="center-image" />
-    <ion-button expand="full" routerLink="/asistencia-alumn" class="bottom-button">Generar QR</ion-button>
-  </div>
+  <qr-code [value]="valorQR" 
+         size="400" 
+         errorCorrectionLevel="M" />
+
+         <ion-input [(ngModel)]="valorQR"></ion-input>
+  <ion-button expand="full" routerLink="/asistencia-alumn" class="bottom-button">Generar QR</ion-button>
 </ion-content>
+
+

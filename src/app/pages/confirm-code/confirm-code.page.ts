@@ -27,44 +27,4 @@ export class ConfirmCodePage implements OnInit {
     this.correo = data.correo;
   }
 
-  async EnviarCodigo() {
-    if (!this.codigo || this.codigo.trim() === '') {
-      await this.showAlert('Error', 'Ingrese un código');
-      return;
-    } else if (!this.password || this.password.trim() === '') {
-      await this.showAlert('Error', 'Ingrese una nueva contraseña');
-      return;
-    } else if (!this.password2 || this.password2.trim() === '') {
-      await this.showAlert('Error', 'Repite la nueva contraseña');
-      return;
-    } else if (this.password !== this.password2) {
-      await this.showAlert('Error', 'Las contraseñas no coinciden');
-      return;
-    }
-
-    
-
-    
-    const existeCorreo = await this.personasService.verificar_correo(this.correo);
-    if (existeCorreo) {
-      await this.personasService.modificarPassword(this.correo, this.password, this.password2);
-      await this.showAlert('Éxito', 'La contraseña se ha cambiado correctamente');
-      this.navCtrl.navigateForward(['/login']);
-    } else {
-      await this.showAlert('Error', 'El correo no está registrado.');
-    }
-  }
-
-  async showAlert(header: string, message: string) {
-    const alert = await this.alertController.create({
-      header,
-      message,
-      buttons: ['OK']
-    });
-    await alert.present();
-  }
-
-  goBack() {
-    this.navCtrl.back();
-  }
 }

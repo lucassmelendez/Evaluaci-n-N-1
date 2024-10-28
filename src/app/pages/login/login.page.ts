@@ -1,4 +1,3 @@
-// login.page.ts
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, MenuController } from '@ionic/angular';
 import { PersonasService } from 'src/app/servicios/personas.service';
@@ -28,8 +27,11 @@ export class LoginPage implements OnInit {
 
   async validar() {
     try {
-      const usuario = await this.cp.login(this.alumno.correo || this.profesor.correo, 
-                                           this.alumno.password || this.profesor.password);
+      const email = this.alumno.correo || this.profesor.correo;
+      const password = this.alumno.password || this.profesor.password;
+
+      // Autenticación utilizando Firebase Auth y Firestore
+      const usuario = await this.cp.login(email, password);
   
       if (usuario) {
         localStorage.setItem('usuario', usuario.correo);

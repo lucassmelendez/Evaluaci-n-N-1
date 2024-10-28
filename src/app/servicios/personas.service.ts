@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Persona } from '../model/Persona';
 import { Alumno } from '../model/alumno';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable } from 'rxjs';
 import { Profesor } from '../model/profesor';
 
@@ -10,13 +11,30 @@ import { Profesor } from '../model/profesor';
 })
 export class PersonasService {
 
-  constructor(private afs: AngularFirestore) {}
+  constructor(private afs: AngularFirestore,private afAuth: AngularFireAuth) {}
 
   grabar(persona: Persona) {
     return this.afs.collection('persona').add(persona);
   }
-  grabar_alumno(alumno: Alumno) {
-    return this.afs.collection('alumno').add(alumno);
+  async registrarAlumno(alumno: Alumno) {
+    try {
+      const userCredential = await this.afAuth.createUserWithEmailAndPassword(alumno.correo, alumno.password);
+      
+        const user = userCredential.user;
+      if (user) {
+        await user.sendEmailVerification();
+      } else {
+        throw new Error("El usuario no se autenticó correctamente");
+      }
+  
+
+      await this.afs.collection('alumno').add({ ...alumno, uid: user.uid });
+  
+
+    } catch (error) {
+      console.error("Error al registrar el alumno:", error);
+      throw error; 
+    }
   }
 
   listarTodo(): Observable<Alumno[]> {
@@ -29,26 +47,33 @@ export class PersonasService {
 
   async login(email: string, password: string): Promise<Alumno | Profesor | null> {
     try {
-      const alumnoSnapshot = await this.afs.collection<Alumno>('alumno', ref =>
-        ref.where('correo', '==', email).where('password', '==', password)
-      ).get().toPromise();
+      
+      const userCredential = await this.afAuth.signInWithEmailAndPassword(email, password);
+      const user = userCredential.user;
 
+      if (!user) {
+        throw new Error('No se pudo autenticar al usuario');
+      }
+
+      
+      const alumnoSnapshot = await this.afs.collection<Alumno>('alumno', ref =>
+        ref.where('correo', '==', email)).get().toPromise();
+      
       if (alumnoSnapshot && !alumnoSnapshot.empty) {
         return alumnoSnapshot.docs[0].data() as Alumno;
       }
 
       const profesorSnapshot = await this.afs.collection<Profesor>('profesor', ref =>
-        ref.where('correo', '==', email).where('password', '==', password)
-      ).get().toPromise();
+        ref.where('correo', '==', email)).get().toPromise();
 
       if (profesorSnapshot && !profesorSnapshot.empty) {
         return profesorSnapshot.docs[0].data() as Profesor;
       }
 
-      return null;
+      return null; 
     } catch (error) {
       console.error("Error en la autenticación:", error);
-      return null;
+      throw error; 
     }
   }
 
@@ -75,39 +100,15 @@ export class PersonasService {
     }
   }
 
-  async modificarPassword(email: string, newPassword: string, newPassword2: string): Promise<void> {
+  async enviarCorreoRestablecimiento(email: string): Promise<void> {
     try {
-      const alumnoSnapshot = await this.afs.collection<Alumno>('alumno', ref =>
-        ref.where('correo', '==', email)).get().toPromise();
-  
-      if (alumnoSnapshot && !alumnoSnapshot.empty) {
-        const alumnoDoc = alumnoSnapshot.docs[0];
-        
-        await this.afs.collection('alumno').doc(alumnoDoc.id).update({
-          password: newPassword,
-          password2: newPassword2 
-        });
-        return;
-      }
-  
-      const profesorSnapshot = await this.afs.collection<Profesor>('profesor', ref =>
-        ref.where('correo', '==', email)).get().toPromise();
-  
-      if (profesorSnapshot && !profesorSnapshot.empty) {
-        const profesorDoc = profesorSnapshot.docs[0];
-        // Actualizar tanto password como password2
-        await this.afs.collection('profesor').doc(profesorDoc.id).update({
-          password: newPassword,
-          password2: newPassword2 
-        });
-        return;
-      }
-      
-      throw new Error('Correo no encontrado');
+      await this.afAuth.sendPasswordResetEmail(email);
+      console.log(`Correo de restablecimiento enviado a ${email}`);
     } catch (error) {
-      console.error("Error al modificar la contraseña:", error);
-      throw error; 
+      console.error("Error al enviar el correo de restablecimiento:", error);
+      throw error;
     }
+  
   }
   async getUsuarioActual(email: string): Promise<Alumno | Profesor | null> {
     try {

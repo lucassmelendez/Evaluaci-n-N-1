@@ -41,7 +41,6 @@ export class EnvCorreoPage implements OnInit {
       return;
     }
 
-    
     const existeCorreo = await this.cp.verificar_correo(this.correo);
 
     if (!existeCorreo) {
@@ -49,11 +48,13 @@ export class EnvCorreoPage implements OnInit {
       return;
     }
 
-    localStorage.setItem('enviar-codigo', JSON.stringify({
-      correo: this.correo,
-    }));
-
-    this.router.navigate(['/confirm-code']);
+    try {
+      await this.cp.enviarCorreoRestablecimiento(this.correo);
+      await this.showAlert('Éxito', 'Se ha enviado un correo para restablecer la contraseña.');
+      this.router.navigate(['/login']);
+    } catch (error) {
+      await this.showAlert('Error', 'Ocurrió un problema al enviar el correo de restablecimiento.');
+    }
   }
 
   volver() {

@@ -44,8 +44,8 @@ export class RegisterPage implements OnInit {
       return;
     }
 
-    if (!this.alumno.password || this.alumno.password.length <= 2) {
-      await this.showAlert('Error', 'La contraseña debe tener al menos 3 caracteres');
+    if (!this.alumno.password || this.alumno.password.length < 6) {
+      await this.showAlert('Error', 'La contraseña debe tener al menos 6 caracteres');
       return;
     }
 
@@ -54,14 +54,14 @@ export class RegisterPage implements OnInit {
       return;
     }
 
-    
-    this.cp.grabar_alumno(this.alumno).then(() => {
-      this.showAlert('Éxito', 'Registro exitoso');
+    try {
+      await this.cp.registrarAlumno(this.alumno); // Llama al método de registro en el servicio
+      await this.showAlert('Éxito', 'Registro exitoso. Se ha enviado un correo de verificación.');
       this.navCtrl.navigateForward('/login');
-    }).catch((err) => {
+    } catch (err) {
       console.error(err);
-      this.showAlert('Error', 'Hubo un problema al registrar el alumno');
-    });
+      await this.showAlert('Error', 'Hubo un problema al registrar el alumno');
+    }
   }
 
   volver() {

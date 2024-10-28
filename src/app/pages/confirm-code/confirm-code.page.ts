@@ -23,8 +23,6 @@ export class ConfirmCodePage implements OnInit {
 
   ngOnInit() {
     
-    const data = JSON.parse(localStorage.getItem('enviar-codigo') || '{}');
-    this.correo = data.correo;
   }
 
 }

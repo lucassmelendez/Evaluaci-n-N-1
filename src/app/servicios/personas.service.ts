@@ -50,27 +50,45 @@ export class PersonasService {
       
       const userCredential = await this.afAuth.signInWithEmailAndPassword(email, password);
       const user = userCredential.user;
-
+  
       if (!user) {
         throw new Error('No se pudo autenticar al usuario');
       }
-
+  
       
       const alumnoSnapshot = await this.afs.collection<Alumno>('alumno', ref =>
         ref.where('correo', '==', email)).get().toPromise();
       
       if (alumnoSnapshot && !alumnoSnapshot.empty) {
-        return alumnoSnapshot.docs[0].data() as Alumno;
+        const alumnoData = alumnoSnapshot.docs[0].data() as Alumno;
+        const alumnoDocId = alumnoSnapshot.docs[0].id;
+  
+        
+        await this.afs.collection('alumno').doc(alumnoDocId).update({
+          password: password,
+          password2: password
+        });
+  
+        return alumnoData;
       }
-
+  
       const profesorSnapshot = await this.afs.collection<Profesor>('profesor', ref =>
         ref.where('correo', '==', email)).get().toPromise();
-
+  
       if (profesorSnapshot && !profesorSnapshot.empty) {
-        return profesorSnapshot.docs[0].data() as Profesor;
+        const profesorData = profesorSnapshot.docs[0].data() as Profesor;
+        const profesorDocId = profesorSnapshot.docs[0].id;
+  
+        
+        await this.afs.collection('profesor').doc(profesorDocId).update({
+          password: password,
+          password2: password
+        });
+  
+        return profesorData;
       }
-
-      return null; 
+  
+      return null;
     } catch (error) {
       console.error("Error en la autenticación:", error);
       throw error; 

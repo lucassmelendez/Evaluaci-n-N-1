@@ -33,10 +33,10 @@ class alumno(models.Model):
 class materias(models.Model):
     nombre = models.CharField(max_length=50, null=False)
     duracion_en_min = models.IntegerField()
-    profesor_a_cargo = models.CharField(max_length=50, null=False)
+    correo_profe = models.CharField(max_length=50, null=False)
 
     def __str__(self) -> str:
-        return self.nombre + " Hecha por: " + self.profesor_a_cargo
+        return self.nombre
 
 class profesor(models.Model):
     apellido = models.CharField(max_length=50, null='S/A')

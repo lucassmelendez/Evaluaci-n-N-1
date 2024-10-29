@@ -1,5 +1,5 @@
-export interface Materias{
-    id?:string;
-    nombre:string;
-    apellido:string;
+export interface Materias {
+    nombre: string;
+    duracion: string;
+    correo_profe: string;
 }

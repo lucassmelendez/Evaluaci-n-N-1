@@ -5,13 +5,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <div class="background-container">
     <div class="button-container">
-      <ion-button expand="block" routerLink="/por-asistencia-curso" class="custom-button">Programacion de aplicaciones de escritorio 008D</ion-button>
-      <ion-button expand="block" routerLink="/por-asistencia-curso" class="custom-button">Programacion de aplicaciones moviles 008D</ion-button>
-      <ion-button expand="block" routerLink="/por-asistencia-curso" class="custom-button">Programacion de aplicaciones web 008D</ion-button>
+      <!-- Aquí se iteran las materias -->
+      <div *ngFor="let materia of materia">
+        <ion-button expand="block" routerLink="/por-asistencia-curso" class="custom-button">
+          {{ materia.nombre }} <!-- Muestra el nombre de la materia -->
+        </ion-button>
+      </div>
     </div>
   </div>
-  
 </ion-content>
+

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CrudAPIService } from 'src/app/servicios/crud-api.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ export class HomePage implements OnInit {
 
   usuario: string = '';
 
-  constructor() {}
+  constructor(private crud:CrudAPIService) {}
 
   ngOnInit(): void {
     const x = localStorage.getItem("usuario");
@@ -21,4 +22,11 @@ export class HomePage implements OnInit {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
+  recuperaralumno(){
+    this.crud.getAlumno().subscribe(
+      (resp)=>{
+        console.log(resp)
+      }
+    ) 
+  }
 }

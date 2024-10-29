@@ -11,3 +11,11 @@ class UsuarioViewSet(generics.ListCreateAPIView):
 class AlumnoViewSet(generics.ListCreateAPIView):
     queryset = alumno.objects.all()
     serializer_class = AlumnoSerializer
+
+class MateriasViewSet(generics.ListCreateAPIView):
+    queryset = materias.objects.all()
+    serializer_class = MateriasSerializer
+
+class ProfesorViewSet(generics.ListCreateAPIView):
+    queryset = profesor.objects.all()
+    serializer_class = ProfesorSerializer

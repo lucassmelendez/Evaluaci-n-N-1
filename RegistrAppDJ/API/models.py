@@ -28,3 +28,30 @@ class alumno(models.Model):
         super().clean()
         if self.password != self.password2:
             raise ValidationError("Las contraseñas no coinciden.")
+
+
+class materias(models.Model):
+    nombre = models.CharField(max_length=50, null=False)
+    duracion_en_min = models.IntegerField()
+    profesor_a_cargo = models.CharField(max_length=50, null=False)
+
+    def __str__(self) -> str:
+        return self.nombre + " Hecha por: " + self.profesor_a_cargo
+
+class profesor(models.Model):
+    apellido = models.CharField(max_length=50, null='S/A')
+    correo = models.CharField(max_length=30, null=False, validators=[EmailValidator(message="Ingrese un correo válido.")])
+    curso = models.CharField(max_length=50, null=False)
+    edad = models.IntegerField()
+    nombre = models.CharField(max_length=50, null=False)
+    password=models.CharField(max_length=20,null=False)
+    password2=models.CharField(max_length=20,null=False)
+
+    def __str__(self) -> str:
+        return self.nombre+' '+self.apellido
+    
+    # Validación adicional para contraseñas iguales
+    def clean(self):
+        super().clean()
+        if self.password != self.password2:
+            raise ValidationError("Las contraseñas no coinciden.")

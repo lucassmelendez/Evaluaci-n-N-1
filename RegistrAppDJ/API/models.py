@@ -32,6 +32,11 @@ class materias(models.Model):
 
     def __str__(self) -> str:
         return self.nombre
+class Asistencia(models.Model):
+    alumno = models.ForeignKey(alumno, related_name='asistencias', on_delete=models.CASCADE)
+    materia = models.ForeignKey(materias, related_name='asistencias', on_delete=models.CASCADE)
+    fecha = models.DateField()
+    presente = models.BooleanField(default=False)
 
 class profesor(models.Model):
     apellido = models.CharField(max_length=50, null='S/A')

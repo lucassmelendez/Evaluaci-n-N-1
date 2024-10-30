@@ -7,24 +7,25 @@ class UsuarioSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AsistenciaSerializer(serializers.ModelSerializer):
-    materia = serializers.StringRelatedField() 
+    materia = serializers.StringRelatedField()
 
     class Meta:
-        model = Asistencia 
+        model = Asistencia
         fields = ['materia', 'fecha', 'presente']
 
 class MateriasSerializer(serializers.ModelSerializer):
-    asistencias = AsistenciaSerializer(many=True, read_only=True) 
+    asistencias = AsistenciaSerializer(many=True, read_only=True)
 
     class Meta:
-        model = materias
-        fields = ['nombre', 'asistencias'] 
+        model = materias  
+        fields = ['nombre', 'asistencias']
 
 class AlumnoSerializer(serializers.ModelSerializer):
     materias = MateriasSerializer(many=True, read_only=True)
+
     class Meta:
         model = alumno
-        fields = '__all__' 
+        fields = '__all__'
 class ProfesorSerializer(serializers.ModelSerializer):
     class Meta:
         model = profesor

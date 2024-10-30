@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Alumno } from '../model/alumno';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class CrudAPIService {
   private rutaApiAlumno = "http://127.0.0.1:8000/api/alumno/";
   private rutaIncrementarAsistencia = "http://127.0.0.1:8000/api/incrementar_asistencia/";
+  private rutaAsistenciasPorMateria = "http://127.0.0.1:8000/api/asistencias_por_materia/";
 
   constructor(private http: HttpClient) {}
 
@@ -24,5 +24,8 @@ export class CrudAPIService {
   getAlumnoPDF(): Observable<Blob> {
     return this.http.get(`${this.rutaApiAlumno}pdf/`, { responseType: 'blob' });
   }
-}
 
+  getAsistenciasPorMateria(): Observable<any> {
+    return this.http.get<any>(this.rutaAsistenciasPorMateria);
+  }
+}

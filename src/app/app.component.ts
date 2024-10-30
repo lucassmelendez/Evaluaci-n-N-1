@@ -60,28 +60,37 @@ export class AppComponent {
   }                                                                                                                                                 
 
   async navigateAndClose(route: string) {
-    this.menu.close('main').then(async () => {
-      const email = localStorage.getItem('usuario'); // Obtiene el correo del usuario de localStorage
-      let usuario = null;
+    try {
+      await this.menu.close('main');
   
-      if (email) {
-        usuario = await this.cp.getUsuarioActual(email); // Pasa el correo al método
+      if (route !== '/home') {
+        this.router.navigate([route]);
+        return;
       }
   
-      if (route === '/home') {
-        if (usuario) {
-          if ('curso' in usuario) {
-            this.router.navigate(['/home-profe']);
-          } else {
-            this.router.navigate(['/home-alumno']);
-          }
+      const email = localStorage.getItem('usuario');
+      if (!email) {
+        console.error('Tipo de usuario no encontrado');
+        this.router.navigate(['/login']);
+        return;
+      }
+  
+      const usuario = await this.cp.getUsuarioActual(email);
+      if (usuario) {
+        if ('curso' in usuario) {
+          this.router.navigate(['/home-profe']);
+          this.menu.close();
         } else {
-          console.error('Tipo de usuario no encontrado');
-          this.router.navigate(['/login']);
+          this.router.navigate(['/home-alumno']);
+          this.menu.close();
         }
       } else {
-        this.router.navigate([route]);
+        console.error('Tipo de usuario no encontrado');
+        this.router.navigate(['/login']);
       }
-    });
+    } catch (error) {
+      console.error('Error al navegar:', error);
+    }
   }
 }
+  

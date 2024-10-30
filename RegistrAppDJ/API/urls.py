@@ -1,12 +1,22 @@
 from django.urls import re_path as url
 from .views import *
 from rest_framework.urlpatterns import format_suffix_patterns
+from django.urls import path
+from .views import (
+    UsuarioViewSet,
+    AlumnoViewSet,
+    MateriasViewSet,
+    ProfesorViewSet,
+    IncrementarAsistenciaView,
+)
+
 
 urlpatterns = [
-    url(r'^api/usuario/$', UsuarioViewSet.as_view()),
-    url(r'^api/alumno/$', AlumnoViewSet.as_view()),
-    url(r'^api/materias/$', MateriasViewSet.as_view()),
-    url(r'^api/profesor/$', ProfesorViewSet.as_view())
+    path('api/usuario/', UsuarioViewSet.as_view(), name='usuario-list'),
+    path('api/alumno/', AlumnoViewSet.as_view(), name='alumno-list'),
+    path('api/materias/', MateriasViewSet.as_view(), name='materias-list'),
+    path('api/profesor/', ProfesorViewSet.as_view(), name='profesor-list'),
+    path('api/incrementar_asistencia/', IncrementarAsistenciaView.as_view(), name='incrementar-asistencia'),
 ]
 
 urlpatterns=format_suffix_patterns(urlpatterns)

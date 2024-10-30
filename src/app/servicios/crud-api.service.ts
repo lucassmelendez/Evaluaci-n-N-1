@@ -1,19 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, retry } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Alumno } from '../model/alumno';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CrudAPIService {
+  private rutaApiAlumno = "http://127.0.0.1:8000/api/alumno/";
+  private rutaIncrementarAsistencia = "http://127.0.0.1:8000/api/incrementar_asistencia/";
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  private rutaApiAlumno = "http://127.0.0.1:8000/api/alumno/"
-   
-  getAlumno():Observable<any>{
-    return this.http.get<any>(this.rutaApiAlumno);
+  getAlumno(): Observable<Alumno[]> {
+    return this.http.get<Alumno[]>(this.rutaApiAlumno);
   }
 
+  incrementarAsistencia(data: { correo: string }): Observable<any> {
+    return this.http.post(this.rutaIncrementarAsistencia, data);
+  }
+  
 }
+

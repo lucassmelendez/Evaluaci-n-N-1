@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AlertController } from '@ionic/angular';
+import { CrudAPIService } from 'src/app/servicios/crud-api.service';
 
 @Component({
   selector: 'app-chek-qr-alumno',
@@ -8,11 +9,13 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./chek-qr-alumno.page.scss'],
 })
 export class ChekQRAlumnoPage implements OnInit {
-  
   isSupported = false;
   barcodes: Barcode[] = [];
 
-  constructor(private AlertController:AlertController) { }
+  constructor(
+    private alertController: AlertController,
+    private crudAPIService: CrudAPIService
+  ) {}
 
   ngOnInit() {
     BarcodeScanner.isSupported().then((result) => {
@@ -23,11 +26,33 @@ export class ChekQRAlumnoPage implements OnInit {
   async scan(): Promise<void> {
     const granted = await this.requestPermissions();
     if (!granted) {
-      this.presentAlert();
+      this.presentAlert('Permiso Denegado', 'Por favor establezca permisos para el uso de barcode scanner.');
       return;
     }
+
     const { barcodes } = await BarcodeScanner.scan();
     this.barcodes.push(...barcodes);
+    
+    for (const barcode of this.barcodes) {
+      const correo = barcode.displayValue; 
+      this.incrementarAsistencia(correo);
+    }
+  }
+
+  async incrementarAsistencia(correo: string) {
+    try {
+      const response = await this.crudAPIService.incrementarAsistencia({ correo }).toPromise();
+
+      if (response.success) {
+        console.log(`Asistencia incrementada. Nueva asistencia: ${response.asistencia}`);
+      } else {
+        console.error('Error al incrementar la asistencia', response);
+        this.presentAlert('Error', 'No se pudo incrementar la asistencia.');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud', error);
+      this.presentAlert('Error', 'Ocurrió un error en la solicitud.');
+    }
   }
 
   async requestPermissions(): Promise<boolean> {
@@ -35,10 +60,10 @@ export class ChekQRAlumnoPage implements OnInit {
     return camera === 'granted' || camera === 'limited';
   }
 
-  async presentAlert(): Promise<void> {
-    const alert = await this.AlertController.create({
-      header: 'Permiso Denegado',
-      message: 'Por favor establezca permisos para el uso de barcode scanner.',
+  async presentAlert(header: string, message: string): Promise<void> {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
       buttons: ['OK'],
     });
     await alert.present();

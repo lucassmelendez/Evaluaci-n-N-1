@@ -8,16 +8,20 @@ import { Alumno } from 'src/app/model/alumno';
   styleUrls: ['./por-asistencia-curso.page.scss'],
 })
 export class PorAsistenciaCursoPage implements OnInit {
-  students: Alumno[] = []; // Variable para almacenar los alumnos
+  students: Alumno[] = []; 
 
   constructor(private crudAPIService: CrudAPIService) {}
 
-  // Llamar al servicio al inicializar el componente
   ngOnInit() {
+    this.loadAlumnos();
+  }
+
+  loadAlumnos() {
     this.crudAPIService.getAlumno().subscribe(
       (data) => {
-        console.log('Datos recibidos:', data); 
-        this.students = data; 
+        console.log('Datos recibidos:', data);
+        this.students = data;
+        console.log('Alumnos con asistencia:', this.students);
       },
       (error) => {
         console.error('Error al obtener los datos:', error);

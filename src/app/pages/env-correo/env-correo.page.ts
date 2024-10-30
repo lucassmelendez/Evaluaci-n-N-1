@@ -12,8 +12,8 @@ import { PersonasService } from 'src/app/servicios/personas.service';
 })
 export class EnvCorreoPage implements OnInit {
 
-  alumno: Alumno = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '' };
-  profesor: Profesor = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '', curso: '' };
+  Alumno: Alumno = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '', asistencia: 0 };
+  profesor: Profesor = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '', curso: ''  };
   correo: string = ''; // Almacena el correo ingresado
 
   constructor(

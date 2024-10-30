@@ -1,5 +1,6 @@
 from .models import *
 from rest_framework import serializers
+from .models import Usuario, alumno, materias, profesor
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:

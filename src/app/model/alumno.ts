@@ -6,4 +6,5 @@ export interface Alumno{
     correo:string;
     password:string;
     password2:string;
+    asistencia: number;
 }

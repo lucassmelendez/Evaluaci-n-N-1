@@ -31,7 +31,8 @@ class materias(models.Model):
     correo_profe = models.CharField(max_length=50, null=False)
 
     def __str__(self) -> str:
-        return self.nombre
+        return self.nombre 
+
 class Asistencia(models.Model):
     alumno = models.ForeignKey(alumno, related_name='asistencias', on_delete=models.CASCADE)
     materia = models.ForeignKey(materias, related_name='asistencias', on_delete=models.CASCADE)

@@ -8,8 +8,8 @@
 <ion-content>
   <div class="background-container">
     <div class="button-container">
-      <!-- Aquí se iteran las materias -->
-      <div *ngFor="let materia of materia">
+      <!-- Iterar sobre las materias del profesor -->
+      <div *ngFor="let materia of materiasDelProfesor">
         <ion-button expand="block" routerLink="/informe" class="custom-button">
           {{ materia.nombre }} <!-- Muestra el nombre de la materia -->
         </ion-button>

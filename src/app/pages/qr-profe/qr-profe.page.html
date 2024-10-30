@@ -6,12 +6,22 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <qr-code [value]="valorQR" 
-         size="400" 
-         errorCorrectionLevel="M" />
+  <div>
+    <h2>Tiempo restante: {{ tiempoRestante }} segundos</h2>
+  </div>
+  
+  <qr-code 
+    [value]="valorQR" 
+    size="400" 
+    errorCorrectionLevel="M">
+  </qr-code>
 
-         <ion-input [(ngModel)]="valorQR"></ion-input>
-  <ion-button expand="full" routerLink="/asistencia-alumn" class="bottom-button">Generar QR</ion-button>
+  <ion-input [(ngModel)]="valorQR"></ion-input>
+  
+  <ion-button expand="full" (click)="validarYGenerarQR()" class="bottom-button">
+    Generar QR
+  </ion-button>
+
+  <!-- Mensaje de estado -->
+  <div *ngIf="mensajeEstado" class="estado-mensaje">{{ mensajeEstado }}</div>
 </ion-content>
-
-

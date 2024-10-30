@@ -19,3 +19,7 @@ export interface Alumno {
     asistencia: number;
     materias: Materia[];
 }
+
+export interface AlumnoConPresente extends Alumno {
+    presente?: boolean; // Propiedad opcional para la presencia
+}

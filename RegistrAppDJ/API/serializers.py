@@ -18,7 +18,7 @@ class MateriasSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = materias  
-        fields = ['nombre', 'asistencias']
+        fields = ['nombre', 'asistencias', 'correo_profe']
 
 class AlumnoSerializer(serializers.ModelSerializer):
     materias = MateriasSerializer(many=True, read_only=True)

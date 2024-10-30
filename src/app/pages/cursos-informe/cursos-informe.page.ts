@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiMateriasService } from 'src/app/servicios/api-materias.service'; // Corrige la importación
+import { Materias } from 'src/app/model/materias';
 
 @Component({
   selector: 'app-cursos-informe',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CursosInformePage implements OnInit {
 
-  constructor() { }
+  materia: Materias[];
+
+  constructor(private apiMateriasService: ApiMateriasService) { }
 
   ngOnInit() {
+    this.apiMateriasService.getMaterias().subscribe( // Usa el método correcto
+      (data) => {
+        console.log('Datos recibidos:', data); 
+        this.materia = data; 
+      },
+      (error) => {
+        console.error('Error al obtener los datos:', error);
+      }
+    );
   }
 
 }

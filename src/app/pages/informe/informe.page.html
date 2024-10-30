@@ -9,11 +9,10 @@
   <div class="attendance-container">
     <ion-list>
       <ion-item *ngFor="let student of students">
-        <ion-label class="student-info">
-          <h2>{{ student.name }}</h2>
-          <p>Asistencia: {{ student.attendance }}%</p>
+        <ion-label>
+          <h2>{{ student.nombre }} {{ student.apellido }}</h2>
+          <h3>Asistencia xx/xx</h3>
         </ion-label>
-        <ion-progress-bar value="{{ student.attendance / 100 }}" class="attendance-bar"></ion-progress-bar>
       </ion-item>
     </ion-list>
     <div class="background-container">

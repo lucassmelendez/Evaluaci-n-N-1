@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { CrudAPIService } from 'src/app/servicios/crud-api.service';
+import { Alumno } from 'src/app/model/alumno'; 
 
 @Component({
   selector: 'app-informe',
@@ -7,49 +9,34 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./informe.page.scss'],
 })
 export class InformePage implements OnInit {
+  students: Alumno[] = [];
 
-  students = [
-    { name: 'Juan Pérez', attendance: 0 },
-    { name: 'María García', attendance: 0 },
-    { name: 'Pedro López', attendance: 78 },
-    { name: 'Ana Martínez', attendance: 95 },
-    { name: 'Luis Hernández', attendance: 80 },
-    { name: 'Fransicso Silva', attendance: 30 },
-    { name: 'Hector Alveal', attendance: 90 },
-    { name: 'Omar Alveal', attendance: 78 },
-    { name: 'Benjamin Alveak', attendance: 95 },
-    { name: 'Pedro Ahumada', attendance: 80 },
-    { name: 'Benjamin Bahamondes', attendance: 100 },
-    { name: 'Ignacio Urrutia', attendance: 90 },
-    { name: 'Kristal Huribe', attendance: 78 },
-    { name: 'Alan gajardo', attendance: 95 },
-    { name: 'Diego Plaza', attendance: 40 },
-    { name: 'Matias Recabarren', attendance: 85 },
-    { name: 'Alonso Gonzales', attendance: 10 },
-    { name: 'Sebastian Piñera', attendance: 78 },
-    { name: 'Maria Jose', attendance: 95 },
-    { name: 'Jose Maria', attendance: 80 },
-  ];
-
-  constructor(private alertController: AlertController) {}
+  constructor(
+    private alertController: AlertController,
+    private crudAPIService: CrudAPIService
+  ) {}
 
   ngOnInit() {   
+    this.crudAPIService.getAlumno().subscribe(
+      (data) => {
+        console.log('Datos recibidos:', data); 
+        this.students = data; 
+      },
+      (error) => {
+        console.error('Error al obtener los datos:', error);
+      }
+    );
   }
+
   public alertButtons = [
     {
       text: 'PDF',
       role: 'pdf',
       handler: () => {
-        this.mostrarPDF('Has seleccionado PDF');
+        this.mostrarPDF();
       },
     },
-    {
-      text: 'XLS',
-      role: 'xls',
-      handler: () => {
-        this.mostrarXLS('Has seleccionado XLS');
-      },
-    },
+
     {
       text: 'CANCELAR',
       role: 'cancel',
@@ -68,24 +55,26 @@ export class InformePage implements OnInit {
     await alert.present();
   }
 
-  mostrarPDF(message: string) {
-    this.alertaPDF();
-  }
+  mostrarPDF() {
+    this.crudAPIService.getAlumnoPDF().subscribe(
+      (pdfBlob) => {
+        
+        const blobUrl = window.URL.createObjectURL(pdfBlob);
+        const anchor = document.createElement('a');
+        anchor.href = blobUrl;
+        anchor.download = 'informe_alumnos.pdf';
+        anchor.click();
 
-  async alertaXLS() {
-    const alert = await this.alertController.create({
-      header: 'Éxito',
-      message: 'Descarga en formato XLS exitosa',
-      buttons: ['OK'],
-    });
-    await alert.present();
-  }
+        
+        window.URL.revokeObjectURL(blobUrl);
 
-  mostrarXLS(message: string) {
-    this.alertaXLS();
+        
+        this.alertaPDF();
+      },
+      (error) => {
+        console.error('Error al descargar el PDF:', error);
+      }
+    );
   }
 
 }
-
-
-

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Alumno } from '../model/alumno';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +20,9 @@ export class CrudAPIService {
   incrementarAsistencia(data: { correo: string }): Observable<any> {
     return this.http.post(this.rutaIncrementarAsistencia, data);
   }
-  
+
+  getAlumnoPDF(): Observable<Blob> {
+    return this.http.get(`${this.rutaApiAlumno}pdf/`, { responseType: 'blob' });
+  }
 }
 

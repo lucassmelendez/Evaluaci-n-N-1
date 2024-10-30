@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/materias/', MateriasViewSet.as_view(), name='materias-list'),
     path('api/profesor/', ProfesorViewSet.as_view(), name='profesor-list'),
     path('api/incrementar_asistencia/', IncrementarAsistenciaView.as_view(), name='incrementar-asistencia'),
+    url(r'^api/alumno/pdf/$', generar_pdf_alumnos),
 ]
 
 urlpatterns=format_suffix_patterns(urlpatterns)

@@ -12,7 +12,7 @@ import { PersonasService } from 'src/app/servicios/personas.service';
 })
 export class RegisterPage implements OnInit {
 
-  alumno: Alumno = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '' , asistencia: 0};
+  alumno: Alumno = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '' , asistencia: 0 , materias: []};
 
   constructor(
     private router: Router,

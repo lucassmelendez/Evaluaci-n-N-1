@@ -1,6 +1,7 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Lista de Alumnos</ion-title>
+    <ion-menu-button></ion-menu-button>
   </ion-toolbar>
 </ion-header>
 
@@ -11,7 +12,7 @@
         <h2>{{ student.nombre }} {{ student.apellido }}</h2>
         <p>Correo: {{ student.correo }}</p>
         <p>Edad: {{ student.edad }}</p>
-        <p>Asistencia: {{ student.asistencia }}</p>
+        <p>Asistencia: {{ student.asistencia }} de {{ totalClases }} ({{ getAttendancePercentage(student.asistencia) }})</p>
       </ion-label>
     </ion-item>
   </ion-list>

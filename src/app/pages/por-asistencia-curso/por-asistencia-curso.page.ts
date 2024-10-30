@@ -9,6 +9,7 @@ import { Alumno } from 'src/app/model/alumno';
 })
 export class PorAsistenciaCursoPage implements OnInit {
   students: Alumno[] = []; 
+  totalClases: number = 20;
 
   constructor(private crudAPIService: CrudAPIService) {}
 
@@ -21,11 +22,16 @@ export class PorAsistenciaCursoPage implements OnInit {
       (data) => {
         console.log('Datos recibidos:', data);
         this.students = data;
-        console.log('Alumnos con asistencia:', this.students);
       },
       (error) => {
         console.error('Error al obtener los datos:', error);
       }
     );
+  }
+
+  getAttendancePercentage(asistencia: number): string {
+    if (this.totalClases === 0) return '0%';
+    const percentage = (asistencia / this.totalClases) * 100;
+    return percentage.toFixed(2) + '%';
   }
 }

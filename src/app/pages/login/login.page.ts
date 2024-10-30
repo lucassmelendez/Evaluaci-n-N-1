@@ -11,7 +11,7 @@ import { Profesor } from 'src/app/model/profesor';
 })
 export class LoginPage implements OnInit {
 
-  alumno: Alumno = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '' , asistencia: 0};
+  alumno: Alumno = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '' , asistencia: 0, materias: []};
   profesor: Profesor = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '', curso: '' };
 
   constructor(

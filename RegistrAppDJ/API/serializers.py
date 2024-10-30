@@ -1,22 +1,30 @@
 from .models import *
 from rest_framework import serializers
-from .models import Usuario, alumno, materias, profesor
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = '__all__' 
-
-class AlumnoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = alumno
         fields = '__all__'
+
+class AsistenciaSerializer(serializers.ModelSerializer):
+    materia = serializers.StringRelatedField() 
+
+    class Meta:
+        model = Asistencia 
+        fields = ['materia', 'fecha', 'presente']
 
 class MateriasSerializer(serializers.ModelSerializer):
+    asistencias = AsistenciaSerializer(many=True, read_only=True) 
+
     class Meta:
         model = materias
-        fields = '__all__'
+        fields = ['nombre', 'asistencias'] 
 
+class AlumnoSerializer(serializers.ModelSerializer):
+    materias = MateriasSerializer(many=True, read_only=True)
+    class Meta:
+        model = alumno
+        fields = '__all__' 
 class ProfesorSerializer(serializers.ModelSerializer):
     class Meta:
         model = profesor

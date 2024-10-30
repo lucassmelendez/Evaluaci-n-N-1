@@ -45,7 +45,7 @@ class profesor(models.Model):
     def __str__(self) -> str:
         return self.nombre+' '+self.apellido
     
-    # Validación adicional para contraseñas iguales
+    
     def clean(self):
         super().clean()
         if self.password != self.password2:

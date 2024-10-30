@@ -9,6 +9,9 @@ from django.shortcuts import get_object_or_404
 from .models import alumno
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+import json
 
 # Create your views here.
 class UsuarioViewSet(generics.ListCreateAPIView):
@@ -65,3 +68,22 @@ def generar_pdf_alumnos(request):
     p.showPage()
     p.save()
     return response
+
+@csrf_exempt
+@api_view(['POST'])
+def guardar_alumno(request):
+    try:
+        data = json.loads(request.body)
+        nuevo_alumno = alumno(
+            nombre=data['nombre'],
+            apellido=data['apellido'],
+            edad=data['edad'],
+            correo=data['correo'],
+            password=data['password'],
+            password2=data['password2'],
+            asistencia=data.get('asistencia', 0)
+        )
+        nuevo_alumno.save()
+        return Response({"mensaje": "Alumno guardado en Django"}, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

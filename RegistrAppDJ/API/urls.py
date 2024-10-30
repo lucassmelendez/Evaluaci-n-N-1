@@ -8,6 +8,7 @@ from .views import (
     MateriasViewSet,
     ProfesorViewSet,
     IncrementarAsistenciaView,
+    guardar_alumno,
 )
 
 
@@ -18,6 +19,7 @@ urlpatterns = [
     path('api/profesor/', ProfesorViewSet.as_view(), name='profesor-list'),
     path('api/incrementar_asistencia/', IncrementarAsistenciaView.as_view(), name='incrementar-asistencia'),
     url(r'^api/alumno/pdf/$', generar_pdf_alumnos),
+    path('api/guardar-alumno/', guardar_alumno, name='guardar_alumno'),
 ]
 
 urlpatterns=format_suffix_patterns(urlpatterns)

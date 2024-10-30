@@ -5,13 +5,14 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable } from 'rxjs';
 import { Profesor } from '../model/profesor';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PersonasService {
 
-  constructor(private afs: AngularFirestore,private afAuth: AngularFireAuth) {}
+  constructor(private afs: AngularFirestore,private afAuth: AngularFireAuth,private http:HttpClient) {}
 
   grabar(persona: Persona) {
     return this.afs.collection('persona').add(persona);
@@ -29,6 +30,7 @@ export class PersonasService {
   
 
       await this.afs.collection('alumno').add({ ...alumno, uid: user.uid });
+      await this.guardarAlumnoDjango(alumno);
   
 
     } catch (error) {
@@ -150,5 +152,16 @@ export class PersonasService {
       return null;
     }
   }
+  async guardarAlumnoDjango(alumno: Alumno): Promise<void> {
+    try {
+      const djangoUrl = 'http://127.0.0.1:8000/api/guardar-alumno/'; // Cambia esto a tu URL de Django
+      await this.http.post(djangoUrl, alumno).toPromise();
+      console.log("Alumno guardado en Django correctamente");
+    } catch (error) {
+      console.error("Error al guardar el alumno en Django:", error);
+      throw error;
+    }
+  }
+
   
 }

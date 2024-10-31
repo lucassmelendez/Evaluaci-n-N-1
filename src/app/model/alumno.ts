@@ -9,7 +9,7 @@ export interface Asistencia {
 }
 
 export interface Alumno {
-    id?: string;
+    id?: string; // Asegúrate de que esta propiedad esté presente
     nombre: string;
     apellido: string;
     edad: number | null;

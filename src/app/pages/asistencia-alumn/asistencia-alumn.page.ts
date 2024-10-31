@@ -10,8 +10,7 @@ import { Alumno } from 'src/app/model/alumno';
   styleUrls: ['./asistencia-alumn.page.scss'],
 })
 export class AsistenciaAlumnPage implements OnInit {
-  students: Alumno[] = [];
-  totalClases: number = 20;
+  students: Alumno[] = []; // Inicializa un arreglo vacío para los alumnos
 
   constructor(
     private alertController: AlertController,
@@ -20,13 +19,14 @@ export class AsistenciaAlumnPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadAlumnos();
+    this.loadAlumnos(); // Cargar todos los alumnos al inicializar
   }
 
   loadAlumnos() {
     this.crudAPIService.getAlumno().subscribe(
-      (data: Alumno[]) => {
-        this.students = data;
+      (data) => {
+        this.students = data; // Asignar los datos obtenidos a la propiedad students
+        // Este paso asegura que la propiedad asistencia se cargue desde la base de datos
       },
       (error) => {
         console.error('Error al obtener los datos:', error);
@@ -34,22 +34,31 @@ export class AsistenciaAlumnPage implements OnInit {
     );
   }
 
-  toggleAttendance(student: Alumno) {
-    // Si la asistencia es mayor que 0, decrementa
-    if (student.asistencia > 0) {
-      student.asistencia--; // Disminuye la asistencia si ya está presente
+  toggleAttendance(student: Alumno, event: any) {
+    // Si la checkbox está marcada, incrementa la asistencia; si no, decrementa
+    if (event.detail.checked) {
+      student.asistencia++; // Incrementa asistencia
     } else {
-      student.asistencia++; // Aumenta la asistencia si no está presente
+      if (student.asistencia > 0) { // Solo decrementa si la asistencia es mayor que 0
+        student.asistencia--; // Decrementa asistencia
+      }
     }
   }
 
-  getAttendancePercentage(asistencia: number): string {
-    if (this.totalClases === 0) return '0%';
-    const percentage = (asistencia / this.totalClases) * 100;
-    return percentage.toFixed(2) + '%';
-  }
-
   async confirmarAsistencia() {
+    for (const student of this.students) {
+      if (student.asistencia > 0) { // Solo incrementar si la asistencia es mayor que 0
+        try {
+          await this.crudAPIService.incrementarAsistencia({ correo: student.correo }).toPromise();
+        } catch (error) {
+          console.error('Error al incrementar la asistencia:', error);
+        }
+      }
+    }
+
+    // Volver a cargar la lista de alumnos después de confirmar la asistencia
+    await this.loadAlumnos(); // Actualiza la interfaz con la asistencia más reciente
+
     const alert = await this.alertController.create({
       message: 'Asistencia registrada exitosamente',
       buttons: ['OK'],
@@ -57,7 +66,7 @@ export class AsistenciaAlumnPage implements OnInit {
     await alert.present();
 
     setTimeout(() => {
-      this.navCtrl.navigateForward(['/home-profe']); // Redirige al home después de 2 segundos
+      this.navCtrl.navigateForward(['/home-profe']);
     }, 2000);
   }
 }

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { PersonasService } from './servicios/personas.service';
 
 @Component({
   selector: 'app-root',
@@ -11,16 +10,13 @@ import { PersonasService } from './servicios/personas.service';
 })
 export class AppComponent {
 
-  login:boolean=false;
-
   constructor(
     private modalController: ModalController,
     public alertController: AlertController,
     public navCtrl: NavController,
     private menu: MenuController,
-    private router: Router,
-    private cp: PersonasService) {
-  }
+    private router: Router
+  ) {}
 
   async salir() {
     const alert = await this.alertController.create({
@@ -30,15 +26,13 @@ export class AppComponent {
         {
           text: 'No',
           role: 'cancel',
-          handler: () => {
-          }
+          handler: () => {}
         },
         {
           text: 'Sí',
           handler: () => {
             localStorage.removeItem('usuario');
             localStorage.removeItem('tipoUsuario');
-            
             this.navCtrl.navigateRoot('/login');
             this.menu.enable(false);
             this.menu.close(); 
@@ -46,51 +40,46 @@ export class AppComponent {
         }
       ]
     });
-  
+
     await alert.present();
   }
 
   volver() {
-    if (this.router.url == '/home-profe' || this.router.url == '/home-alumno') {
-      this.menu.close()
-    }else{
+    if (this.router.url === '/home-profe' || this.router.url === '/home-alumno') {
+      this.menu.close();
+    } else {
       this.navCtrl.back();
       this.menu.close();
-    }                                                                                                                                                 
-  }                                                                                                                                                 
+    }
+  }
 
   async navigateAndClose(route: string) {
-    try {
-      await this.menu.close('main');
-  
-      if (route !== '/home') {
-        this.router.navigate([route]);
-        return;
-      }
-  
-      const email = localStorage.getItem('usuario');
-      if (!email) {
-        console.error('Tipo de usuario no encontrado');
-        this.router.navigate(['/login']);
-        return;
-      }
-  
-      const usuario = await this.cp.getUsuarioActual(email);
-      if (usuario) {
-        if ('curso' in usuario) {
-          this.router.navigate(['/home-profe']);
-          this.menu.close();
-        } else {
-          this.router.navigate(['/home-alumno']);
-          this.menu.close();
-        }
-      } else {
-        console.error('Tipo de usuario no encontrado');
-        this.router.navigate(['/login']);
-      }
-    } catch (error) {
-      console.error('Error al navegar:', error);
+    await this.menu.close('main');
+
+    // Si el usuario no quiere ir a la página de home, navega al destino
+    if (route !== '/home') {
+      this.router.navigate([route]);
+      return;
+    }
+
+    const email = localStorage.getItem('usuario');
+    if (!email) {
+      console.error('Email no encontrado, redirigiendo a login');
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    // Verifica el dominio del correo para determinar la navegación
+    if (email.endsWith('@profesor.duoc.cl')) {
+      this.menu.close();
+      this.router.navigate(['/home-profe']);
+    } else if (email.endsWith('@duocuc.cl')) {
+      this.menu.close();
+      this.router.navigate(['/home-alumno']);
+    } else {
+      console.error('Tipo de usuario no reconocido, redirigiendo a login');
+      this.menu.close();
+      this.router.navigate(['/login']);
     }
   }
 }
-  

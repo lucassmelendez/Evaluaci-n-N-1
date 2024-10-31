@@ -9,14 +9,17 @@
   <div class="attendance-container">
     <ion-list>
       <ion-item *ngFor="let student of students">
-        <ion-checkbox [(ngModel)]="student.present" (ionChange)="togglePresence(student)"></ion-checkbox>
+        <ion-checkbox 
+          [checked]="student.asistencia > 0" 
+          (ionChange)="toggleAttendance(student)">
+        </ion-checkbox>
         <ion-label class="student-info">
-          <h2>{{ student.name }}</h2>
-          <p>Asistencia: {{ student.attendance }}%</p>
+          <h2>{{ student.nombre }} {{ student.apellido }}</h2>
+          <p>Asistencia: {{ student.asistencia }} de {{ totalClases }} ({{ getAttendancePercentage(student.asistencia) }})</p>
         </ion-label>
       </ion-item>
     </ion-list>
-    <ion-button expand="full" (click)="ConfirmarAsistencia()">
+    <ion-button expand="full" (click)="confirmarAsistencia()">
       Confirmar Asistencia
     </ion-button>
   </div>

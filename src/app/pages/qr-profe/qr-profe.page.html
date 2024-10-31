@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true"> 
   <ion-toolbar class="custom-toolbar" color="dark">
     <ion-menu-button slot="start"></ion-menu-button>
     <ion-title>QR profesor</ion-title>
@@ -16,12 +16,13 @@
     errorCorrectionLevel="M">
   </qr-code>
 
-  <ion-input [(ngModel)]="valorQR"></ion-input>
-  
-  <ion-button expand="full" (click)="validarYGenerarQR()" class="bottom-button">
-    Generar QR
-  </ion-button>
+  <div style="display: none;">{{ valorQR }}</div>
 
   <!-- Mensaje de estado -->
   <div *ngIf="mensajeEstado" class="estado-mensaje">{{ mensajeEstado }}</div>
+
+  <!-- Botón para ir a la lista -->
+  <ion-button expand="full" (click)="redirigir()" class="bottom-button">
+    Ir a lista
+  </ion-button>
 </ion-content>

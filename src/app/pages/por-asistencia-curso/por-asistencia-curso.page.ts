@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudAPIService } from 'src/app/servicios/crud-api.service';
-import { Alumno } from 'src/app/model/alumno'; 
+import { Alumno } from 'src/app/model/alumno';
+import { ClaseService } from 'src/app/servicios/clase.service';
 
 @Component({
   selector: 'app-por-asistencia-curso',
@@ -8,19 +9,24 @@ import { Alumno } from 'src/app/model/alumno';
   styleUrls: ['./por-asistencia-curso.page.scss'],
 })
 export class PorAsistenciaCursoPage implements OnInit {
-  students: Alumno[] = []; 
-  totalClases: number = 20;
+  students: Alumno[] = [];
+  totalClases: number = 0;
 
-  constructor(private crudAPIService: CrudAPIService) {}
+  constructor(
+    private crudAPIService: CrudAPIService,
+    private claseService: ClaseService
+  ) {}
 
   ngOnInit() {
     this.loadAlumnos();
+    this.claseService.totalClases$.subscribe((total) => {
+      this.totalClases = total;
+    });
   }
 
   loadAlumnos() {
     this.crudAPIService.getAlumno().subscribe(
       (data) => {
-        console.log('Datos recibidos:', data);
         this.students = data;
       },
       (error) => {

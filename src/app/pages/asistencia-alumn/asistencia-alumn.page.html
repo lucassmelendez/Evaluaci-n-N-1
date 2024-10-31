@@ -12,7 +12,7 @@
         <ion-checkbox (ionChange)="toggleAttendance(student, $event)"></ion-checkbox>
         <ion-label class="student-info">
           <h2>{{ student.nombre }} {{ student.apellido }}</h2>
-          <p>Asistencia: {{ student.asistencia }} de 20</p>
+          <p>Asistencia: {{ student.asistencia }} de {{ totalClases }}</p>
         </ion-label>
       </ion-item>
     </ion-list>

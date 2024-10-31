@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiMateriasService } from 'src/app/servicios/api-materias.service'; // Importa el servicio
 import { Materias } from 'src/app/model/materias'; // Importa la interfaz Materias
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-cursos-qr',
@@ -13,7 +14,9 @@ export class CursosQRPage implements OnInit {
   correoProfesor: string | null = ''; // Correo del profesor logueado
   materiasDelProfesor: Materias[] = []; // Materias filtradas del profesor
 
-  constructor(private apiMateriasService: ApiMateriasService) {}
+  constructor(private apiMateriasService: ApiMateriasService,
+              private router: Router
+  ) {}
 
   ngOnInit() {
     // Recuperar el correo del profesor desde localStorage
@@ -36,5 +39,10 @@ export class CursosQRPage implements OnInit {
         console.error('Error al obtener los datos:', error);
       }
     );
+  }
+  generarQrParaCurso(cursoId: string,cursoName: string) {
+    localStorage.setItem('cursoIdSeleccionado', cursoId);
+    localStorage.setItem('nombreCurso', cursoName);
+    this.router.navigate(['/qr-profe']); // Navega al componente QR
   }
 }

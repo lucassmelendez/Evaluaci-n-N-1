@@ -12,16 +12,16 @@
   
   <qr-code 
     [value]="valorQR" 
-    size="400" 
+    size="350" 
     errorCorrectionLevel="M">
   </qr-code>
 
   <div style="display: none;">{{ valorQR }}</div>
 
-  <!-- Mensaje de estado -->
+
   <div *ngIf="mensajeEstado" class="estado-mensaje">{{ mensajeEstado }}</div>
 
-  <!-- Botón para ir a la lista -->
+
   <ion-button expand="full" (click)="redirigir()" class="bottom-button">
     Ir a lista
   </ion-button>

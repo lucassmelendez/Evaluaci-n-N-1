@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, MenuController } from '@ionic/angular';
-import { PersonasService } from 'src/app/servicios/personas.service';
-import { Alumno } from 'src/app/model/alumno';
-import { Profesor } from 'src/app/model/profesor';
+import { AuthService } from 'src/app/servicios/auth.service'; // Importar el servicio de autenticación
 
 @Component({
   selector: 'app-login',
@@ -10,40 +8,43 @@ import { Profesor } from 'src/app/model/profesor';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
-  alumno: Alumno = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '' , asistencia: 0, materias: []};
-  profesor: Profesor = { nombre: '', apellido: '', edad: 0, correo: '', password: '', password2: '', curso: '' };
+  alumno: any = { correo: '', password: '' }; // Simplificado para el ejemplo
 
   constructor(
     private alertController: AlertController,
     private navCtrl: NavController,
     private menuCtrl: MenuController,
-    private cp: PersonasService
+    private authService: AuthService // Inyectar el servicio
   ) {}
 
   ngOnInit() {
-    this.menuCtrl.enable(false);
+    this.menuCtrl.enable(false); // Deshabilitar el menú para la página de login
   }
 
   async validar() {
     try {
-      const email = this.alumno.correo || this.profesor.correo;
-      const password = this.alumno.password || this.profesor.password;
+      const email = this.alumno.correo;
+      const password = this.alumno.password;
 
-      // Autenticación utilizando Firebase Auth y Firestore
-      const usuario = await this.cp.login(email, password);
-  
-      if (usuario) {
-        localStorage.setItem('usuario', usuario.correo);
-        
-        if ('curso' in usuario) {
+      // Autenticación utilizando el servicio de autenticación
+      this.authService.login(email); // Suponiendo que login maneja la autenticación
+      const user = this.authService.getUser(); // Obtener información del usuario
+
+      if (user) {
+        localStorage.setItem('usuario', user.email);
+
+        // Navegar basado en el rol
+        if (user.role === 'profesor') {
           await this.showAlert('Bienvenido Profesor', 'Has ingresado correctamente');
           this.navCtrl.navigateForward(['/home-profe']);
-        } else {
+        } else if (user.role === 'alumno') {
           await this.showAlert('Bienvenido Alumno', 'Has ingresado correctamente');
           this.navCtrl.navigateForward(['/home-alumno']);
+        } else {
+          await this.presentAlert('Usuario no autorizado.');
         }
-        this.menuCtrl.enable(true);
+        
+        this.menuCtrl.enable(true); // Habilitar el menú después del login
       } else {
         await this.presentAlert('Usuario o contraseña incorrecto');
       }

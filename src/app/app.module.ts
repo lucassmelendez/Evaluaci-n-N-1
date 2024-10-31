@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from './servicios/auth.service';
 //Librerias:
 import { environment } from 'src/environments/environment.prod'
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore'
@@ -22,7 +23,9 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFirestoreModule,
     QrCodeModule, HttpClientModule, 
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync()],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+      AuthService,
+     provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

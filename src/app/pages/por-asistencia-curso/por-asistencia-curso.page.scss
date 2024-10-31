@@ -3,24 +3,28 @@ ion-item {
     margin-bottom: 15px;
     border-radius: 10px;
     padding: 15px;
+
+    // Estilos para la información de cada estudiante
+    ion-label {
+        color: #000000;
+        
+        h2 {
+            font-size: 20px;
+            margin: 0;
+            color: #000000;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 5px 0 0 0;
+            color: #000000;
+        }
+    }
 }
 
-.student-info {
-h2 {
-    font-size: 20px;
-    margin: 0;
-    color: #000000;
-    font-weight: 600;
-}
-
-p {
-    font-size: 16px;
-    margin: 5px 0 0 0;
-    color: #000000;
-}
-}
 .attendance-bar {
-    --progress-background: #d8e1e8;
+    --progress-background: #000000;
     --progress-bar-background: #4caf50;
     height: 12px;
     border-radius: 8px;

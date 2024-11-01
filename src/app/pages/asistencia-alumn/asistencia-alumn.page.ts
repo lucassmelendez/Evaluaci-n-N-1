@@ -66,4 +66,10 @@ export class AsistenciaAlumnPage implements OnInit {
     });
     await alert.present();
   }
+
+  getAttendancePercentage(asistencia: number): string {
+    if (this.totalClases === 0) return '0%';
+    const percentage = (asistencia / this.totalClases) * 100;
+    return percentage.toFixed(2) + '%';
+  }
 }

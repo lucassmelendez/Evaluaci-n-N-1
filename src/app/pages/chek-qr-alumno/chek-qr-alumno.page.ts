@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AlertController } from '@ionic/angular';
 import { CrudAPIService } from 'src/app/servicios/crud-api.service';
+import { AsistenciaAlumnPage } from '../asistencia-alumn/asistencia-alumn.page'; // Asegúrate de importar la página
 
 @Component({
   selector: 'app-chek-qr-alumno',
@@ -14,7 +15,8 @@ export class ChekQRAlumnoPage implements OnInit {
 
   constructor(
     private alertController: AlertController,
-    private crudAPIService: CrudAPIService
+    private crudAPIService: CrudAPIService,
+    private asistenciaAlumnPage: AsistenciaAlumnPage // Inyecta la página de asistencia
   ) {}
 
   ngOnInit() {
@@ -22,7 +24,7 @@ export class ChekQRAlumnoPage implements OnInit {
       this.isSupported = result.supported;
     });
   }
-  
+
   async scan(): Promise<void> {
     const granted = await this.requestPermissions();
     if (!granted) {
@@ -33,6 +35,9 @@ export class ChekQRAlumnoPage implements OnInit {
     const { barcodes } = await BarcodeScanner.scan();
     this.barcodes.push(...barcodes);
     
+    const correosEscaneados = this.barcodes.map(barcode => barcode.displayValue); // Extrae los correos
+    this.asistenciaAlumnPage.marcarPresentes(correosEscaneados); // Marca como presentes
+
     for (const barcode of this.barcodes) {
       const correo = barcode.displayValue; 
       this.incrementarAsistencia(correo);

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { ClaseService } from 'src/app/servicios/clase.service';
 import { CrudAPIService } from 'src/app/servicios/crud-api.service';
-import { Alumno } from 'src/app/model/alumno';
+import { AlumnoConPresente } from 'src/app/model/alumno';
 
 @Component({
   selector: 'app-asistencia-alumn',
@@ -10,8 +10,9 @@ import { Alumno } from 'src/app/model/alumno';
   styleUrls: ['./asistencia-alumn.page.scss'],
 })
 export class AsistenciaAlumnPage implements OnInit {
-  students: Alumno[] = [];
+  students: AlumnoConPresente[] = [];
   totalClases: number = 0;
+  scannedEmails: string[] = []; // Para almacenar los correos escaneados
 
   constructor(
     private alertController: AlertController,
@@ -32,8 +33,8 @@ export class AsistenciaAlumnPage implements OnInit {
       (data) => {
         this.students = data.map((student) => ({
           ...student,
-          asistencia: student.asistencia || 0,
-        }));
+          presente: false, // Inicializa la presencia como falsa
+        })) as AlumnoConPresente[];
       },
       (error) => {
         console.error('Error al obtener los datos:', error);
@@ -41,14 +42,13 @@ export class AsistenciaAlumnPage implements OnInit {
     );
   }
 
-  toggleAttendance(student: Alumno, event: any) {
-    student.asistencia += event.detail.checked ? 1 : -1;
-    if (student.asistencia < 0) student.asistencia = 0;
+  toggleAttendance(student: AlumnoConPresente, event: any) {
+    student.presente = event.detail.checked; // Actualiza el estado de presencia
   }
 
   async confirmarAsistencia() {
     for (const student of this.students) {
-      if (student.asistencia > 0) {
+      if (student.presente) { // Solo incrementa si está presente
         try {
           await this.crudAPIService.incrementarAsistencia({ correo: student.correo }).toPromise();
         } catch (error) {
@@ -71,5 +71,13 @@ export class AsistenciaAlumnPage implements OnInit {
     if (this.totalClases === 0) return '0%';
     const percentage = (asistencia / this.totalClases) * 100;
     return percentage.toFixed(2) + '%';
+  }
+
+  // Método para marcar como presente a los alumnos escaneados
+  marcarPresentes(correosEscaneados: string[]) {
+    this.scannedEmails = correosEscaneados; // Almacena los correos escaneados
+    for (const student of this.students) {
+      student.presente = this.scannedEmails.includes(student.correo); // Marca como presente si está escaneado
+    }
   }
 }

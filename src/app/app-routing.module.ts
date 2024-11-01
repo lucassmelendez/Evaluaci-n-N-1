@@ -39,7 +39,6 @@ const routes: Routes = [
   {
     path: 'home-profe',
     loadChildren: () => import('./pages/home-profe/home-profe.module').then( m => m.HomeProfePageModule),
-    canActivate: [AuthGuard],
   },
   {
     path: 'asistencia-alumn',

@@ -11,7 +11,9 @@
       <ion-item *ngFor="let student of students">
         <ion-label>
           <h2>{{ student.nombre }} {{ student.apellido }}</h2>
-          <h3>Asistenciaa : {{ student.asistencia }}</h3>
+        <p>Correo: {{ student.correo }}</p>
+        <p>Edad: {{ student.edad }}</p>
+        <p>Asistencia: {{ student.asistencia }} de {{ totalClases }} ({{ getAttendancePercentage(student.asistencia) }})</p>
         </ion-label>
       </ion-item>
     </ion-list>

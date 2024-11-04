@@ -10,6 +10,7 @@ import { Alumno } from 'src/app/model/alumno';
 })
 export class InformePage implements OnInit {
   students: Alumno[] = [];
+  totalClases: number = 0;
 
   constructor(
     private alertController: AlertController,
@@ -76,5 +77,10 @@ export class InformePage implements OnInit {
       }
     );
   }
-
+  
+  getAttendancePercentage(asistencia: number): string {
+    if (this.totalClases === 0) return '0%';
+    const percentage = (asistencia / this.totalClases) * 100;
+    return percentage.toFixed(2) + '%';
+  }
 }

@@ -1,26 +1,19 @@
-<h1>Asistencia por Materia</h1>
-
-<table>
-    <thead>
-        <tr>
-            <th>Alumno</th>
-            <th>Materia</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-        </tr>
-    </thead>
-    <tbody>
-        <ng-container *ngFor="let student of students">
-            <ng-container *ngFor="let materia of student.materias">
-                <ng-container *ngFor="let asistencia of materia.asistencias">
-                    <tr>
-                        <td>{{ student.nombre }} {{ student.apellido }}</td>
-                        <td>{{ materia.nombre }}</td>
-                        <td>{{ asistencia.fecha }}</td>
-                        <td>{{ asistencia.presente ? 'Presente' : 'Ausente' }}</td>
-                    </tr>
-                </ng-container>
-            </ng-container>
-        </ng-container>
-    </tbody>
-</table>
+<ion-header [translucent]="true">
+    <ion-toolbar class="custom-toolbar" color="dark">
+      <ion-menu-button slot="start"></ion-menu-button>
+      <ion-title>Lista de cursos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <ion-list>
+      <ion-item *ngFor="let student of students">
+        <ion-label>
+          <h2>{{ student.nombre }} {{ student.apellido }}</h2>
+          <p>Correo: {{ student.correo }}</p>
+          <p>Edad: {{ student.edad }}</p>
+          <p>Asistencia: {{ student.asistencia }} de {{ totalClases }} ({{ getAttendancePercentage(student.asistencia) }})</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>

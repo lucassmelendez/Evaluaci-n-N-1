@@ -56,7 +56,7 @@ def generar_pdf_alumnos(request):
 
     for alumno_instance in alumnos_list:  
         y -= 20  #
-        p.drawString(100, y, f"ID: {alumno_instance.id} - Nombre: {alumno_instance.nombre} - Asistencia: {alumno_instance.asistencia}")
+        p.drawString(100, y, f"ID: {alumno_instance.id} - Nombre: {alumno_instance.nombre} {alumno_instance.apellido} // Asistencia: {alumno_instance.asistencia} dia(s) asistido(s)")
 
     p.showPage()
     p.save()

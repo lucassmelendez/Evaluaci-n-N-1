@@ -51,4 +51,5 @@ export class ChekQRAlumnoPage implements OnInit {
     });
     await alert.present();
   }
+  //a
 }

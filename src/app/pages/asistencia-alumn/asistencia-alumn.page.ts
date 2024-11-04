@@ -1,8 +1,10 @@
+// asistencia-alumn.page.ts
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { ClaseService } from 'src/app/servicios/clase.service';
 import { CrudAPIService } from 'src/app/servicios/crud-api.service';
 import { AlumnoConPresente } from 'src/app/model/alumno';
+import { AsistenciaService } from 'src/app/servicios/asistencia.service';
 
 @Component({
   selector: 'app-asistencia-alumn',
@@ -12,19 +14,24 @@ import { AlumnoConPresente } from 'src/app/model/alumno';
 export class AsistenciaAlumnPage implements OnInit {
   students: AlumnoConPresente[] = [];
   totalClases: number = 0;
-  scannedEmails: string[] = []; // Para almacenar los correos escaneados
 
   constructor(
     private alertController: AlertController,
     private claseService: ClaseService,
     private crudAPIService: CrudAPIService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private asistenciaService: AsistenciaService
   ) {}
 
   ngOnInit() {
     this.loadAlumnos();
     this.claseService.totalClases$.subscribe((total) => {
       this.totalClases = total;
+    });
+
+    // Suscribirse a los correos escaneados
+    this.asistenciaService.correosEscaneados$.subscribe((correosEscaneados) => {
+      this.marcarPresentes(correosEscaneados);
     });
   }
 
@@ -33,7 +40,7 @@ export class AsistenciaAlumnPage implements OnInit {
       (data) => {
         this.students = data.map((student) => ({
           ...student,
-          presente: false, // Inicializa la presencia como falsa
+          presente: false,
         })) as AlumnoConPresente[];
       },
       (error) => {
@@ -43,12 +50,12 @@ export class AsistenciaAlumnPage implements OnInit {
   }
 
   toggleAttendance(student: AlumnoConPresente, event: any) {
-    student.presente = event.detail.checked; // Actualiza el estado de presencia
+    student.presente = event.detail.checked;
   }
 
   async confirmarAsistencia() {
     for (const student of this.students) {
-      if (student.presente) { // Solo incrementa si está presente
+      if (student.presente) {
         try {
           await this.crudAPIService.incrementarAsistencia({ correo: student.correo }).toPromise();
         } catch (error) {
@@ -57,7 +64,7 @@ export class AsistenciaAlumnPage implements OnInit {
       }
     }
 
-    this.claseService.incrementarClases(); // Incrementa el total de clases
+    this.claseService.incrementarClases();
     this.navCtrl.navigateForward(['/home-profe']);
 
     const alert = await this.alertController.create({
@@ -73,11 +80,9 @@ export class AsistenciaAlumnPage implements OnInit {
     return percentage.toFixed(2) + '%';
   }
 
-  // Método para marcar como presente a los alumnos escaneados
   marcarPresentes(correosEscaneados: string[]) {
-    this.scannedEmails = correosEscaneados; // Almacena los correos escaneados
     for (const student of this.students) {
-      student.presente = this.scannedEmails.includes(student.correo); // Marca como presente si está escaneado
+      student.presente = correosEscaneados.includes(student.correo);
     }
   }
 }

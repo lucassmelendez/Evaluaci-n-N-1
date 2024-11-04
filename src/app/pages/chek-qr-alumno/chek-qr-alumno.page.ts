@@ -1,8 +1,8 @@
+// chek-qr-alumno.page.ts
 import { Component, OnInit } from '@angular/core';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AlertController } from '@ionic/angular';
-import { CrudAPIService } from 'src/app/servicios/crud-api.service';
-import { AsistenciaAlumnPage } from '../asistencia-alumn/asistencia-alumn.page'; // Asegúrate de importar la página
+import { AsistenciaService } from 'src/app/servicios/asistencia.service';
 
 @Component({
   selector: 'app-chek-qr-alumno',
@@ -15,8 +15,7 @@ export class ChekQRAlumnoPage implements OnInit {
 
   constructor(
     private alertController: AlertController,
-    private crudAPIService: CrudAPIService,
-    private asistenciaAlumnPage: AsistenciaAlumnPage // Inyecta la página de asistencia
+    private asistenciaService: AsistenciaService
   ) {}
 
   ngOnInit() {
@@ -34,30 +33,9 @@ export class ChekQRAlumnoPage implements OnInit {
 
     const { barcodes } = await BarcodeScanner.scan();
     this.barcodes.push(...barcodes);
-    
-    const correosEscaneados = this.barcodes.map(barcode => barcode.displayValue); // Extrae los correos
-    this.asistenciaAlumnPage.marcarPresentes(correosEscaneados); // Marca como presentes
 
-    for (const barcode of this.barcodes) {
-      const correo = barcode.displayValue; 
-      this.incrementarAsistencia(correo);
-    }
-  }
-
-  async incrementarAsistencia(correo: string) {
-    try {
-      const response = await this.crudAPIService.incrementarAsistencia({ correo }).toPromise();
-
-      if (response.success) {
-        console.log(`Asistencia incrementada. Nueva asistencia: ${response.asistencia}`);
-      } else {
-        console.error('Error al incrementar la asistencia', response);
-        this.presentAlert('Error', 'No se pudo incrementar la asistencia.');
-      }
-    } catch (error) {
-      console.error('Error en la solicitud', error);
-      this.presentAlert('Error', 'Ocurrió un error en la solicitud.');
-    }
+    const correosEscaneados = this.barcodes.map((barcode) => barcode.displayValue);
+    this.asistenciaService.actualizarCorreosEscaneados(correosEscaneados);
   }
 
   async requestPermissions(): Promise<boolean> {

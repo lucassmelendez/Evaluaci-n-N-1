@@ -54,25 +54,32 @@ export class AsistenciaAlumnPage implements OnInit {
   }
 
   async confirmarAsistencia() {
+    // Incrementar el total de clases
+    this.claseService.incrementarClases();
+  
+    // Registrar la asistencia de los alumnos seleccionados
     for (const student of this.students) {
       if (student.presente) {
         try {
+          // Incrementar la asistencia del alumno
           await this.crudAPIService.incrementarAsistencia({ correo: student.correo }).toPromise();
         } catch (error) {
           console.error('Error al incrementar la asistencia:', error);
         }
       }
     }
-
-    this.claseService.incrementarClases();
+  
+    // Navegar a la página de inicio
     this.navCtrl.navigateForward(['/home-profe']);
-
+  
+    // Mostrar alerta de éxito
     const alert = await this.alertController.create({
       message: 'Asistencia registrada exitosamente',
       buttons: ['OK'],
     });
     await alert.present();
   }
+  
 
   getAttendancePercentage(asistencia: number): string {
     if (this.totalClases === 0) return '0%';

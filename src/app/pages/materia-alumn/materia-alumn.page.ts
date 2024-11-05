@@ -9,7 +9,7 @@ import { Asistencia } from 'src/app/model/materias';
   styleUrls: ['./materia-alumn.page.scss'],
 })
 export class MateriaAlumnPage implements OnInit {
-  materias: Materias[] = []; 
+  materias: any[] = []; 
   totalClases: number = 20;
 
   constructor(private crudAPIService: CrudAPIService) {}

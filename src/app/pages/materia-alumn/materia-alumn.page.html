@@ -8,7 +8,7 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let materia of materias">
-      <h3>{{ materia.materia }}</h3>
+      <h3>{{ materia.nombre }}</h3>
       <div *ngIf="materia.asistencias && materia.asistencias.length > 0">
         <p>Días Presente: {{ getAttendanceCount(materia.asistencias) }}</p>
         <p>Porcentaje de Asistencia: {{ getAttendancePercentage(materia.asistencias) }}%</p>

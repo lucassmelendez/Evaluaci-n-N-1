@@ -56,7 +56,7 @@ def generar_pdf_alumnos(request):
 
     for alumno_instance in alumnos_list:  
         y -= 20  
-        p.drawString(100, y, f"ID: {alumno_instance.id} - Nombre: {alumno_instance.nombre} {alumno_instance.apellido} // Asistencia: {alumno_instance.asistencia} dia(s) asistido(s)")
+        p.drawString(100, y, f"ID: {alumno_instance.id} - Nombre: {alumno_instance.nombre} {alumno_instance.apellido} // Asistencia: {alumno_instance.asistencia} día(s) asistido(s)")
 
     p.showPage()
     p.save()
@@ -87,10 +87,10 @@ def asistencias_por_materia(request):
     asistencia_data = []
 
     for materia in materias_list:
-        # Obtiene la lista de asistencias para cada materia
-        asistencias = Asistencia.objects.filter(materia=materia)
+        # Asegúrate de que 'nombre' es la clave foránea correcta
+        asistencias = Asistencia.objects.filter(nombre=materia)
         asistencia_info = {
-            "materia": materia.nombre,
+            "nombre": materia.nombre,
             "asistencias": []
         }
         
@@ -98,7 +98,7 @@ def asistencias_por_materia(request):
             asistencia_info["asistencias"].append({
                 "alumno_id": asistencia.alumno.id,
                 "nombre": f"{asistencia.alumno.nombre} {asistencia.alumno.apellido}",
-                "asistencia": asistencia.presente  # Cambia esto según la lógica que necesites
+                "asistencia": asistencia.presente
             })
         asistencia_data.append(asistencia_info)
 

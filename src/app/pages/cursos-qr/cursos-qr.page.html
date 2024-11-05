@@ -12,9 +12,9 @@
       <div *ngFor="let materia of materiasDelProfesor">
         <ion-button 
           expand="block" 
-          (click)="generarQrParaCurso(materia.correo_profe,materia.materia)" 
+          (click)="generarQrParaCurso(materia.correo_profe,materia.nombre)" 
           class="custom-button">
-          {{ materia.materia }} <!-- Mostrar el nombre de la materia -->
+          {{ materia.nombre }} <!-- Mostrar el nombre de la materia -->
         </ion-button>
       </div>
     </div>

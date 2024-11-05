@@ -1,7 +1,7 @@
 // Interfaces
 export interface Materias {
     id: number;
-    materia: string;
+    nombre: string;
     duracion: string;         // Duración de la materia o curso
     correo_profe: string;     // Correo del profesor encargado de la materia
     totalClases: number;      // Cantidad total de clases programadas para la materia
@@ -9,7 +9,7 @@ export interface Materias {
 }
 export interface Asistencia {
     alumno_id: number;
-    nombre: string;
+    materia: Materias;
     asistencia: boolean;
     fecha: string; // Asegúrate de que esta propiedad esté presente
 }

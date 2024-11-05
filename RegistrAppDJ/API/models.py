@@ -28,19 +28,20 @@ class materias(models.Model):
     nombre = models.CharField(max_length=50, null=False)
     duracion_en_min = models.IntegerField()
     correo_profe = models.CharField(max_length=50, null=False)
-    totalClases = models.IntegerField(default=0)  
+    totalClases = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return self.nombre
 
 class Asistencia(models.Model):
     alumno = models.ForeignKey(alumno, related_name='asistencias', on_delete=models.CASCADE)
-    materia = models.ForeignKey(materias, related_name='asistencias', on_delete=models.CASCADE)
+    nombre = models.ForeignKey(materias, related_name='asistencias', on_delete=models.CASCADE)
     fecha = models.DateField()
     presente = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Asistencia de {self.alumno} en {self.materia} el {self.fecha}"
+        return f"Asistencia de {self.alumno} en {self.nombre} el {self.fecha}"
+
 
 class profesor(models.Model):  # Cambié el nombre a singular
     apellido = models.CharField(max_length=50, null=False, default='S/A')  # Se cambió 'null' a 'null=False'

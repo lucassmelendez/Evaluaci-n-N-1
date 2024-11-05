@@ -7,3 +7,4 @@ admin.site.register(alumno)
 admin.site.register(profesor)
 admin.site.register(materias)
 admin.site.register(Asistencia)
+

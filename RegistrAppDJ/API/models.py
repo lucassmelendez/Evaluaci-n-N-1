@@ -36,7 +36,7 @@ class materias(models.Model):
 class Asistencia(models.Model):
     alumno = models.ForeignKey(alumno, related_name='asistencias', on_delete=models.CASCADE)
     nombre = models.ForeignKey(materias, related_name='asistencias', on_delete=models.CASCADE)
-    fecha = models.DateField()
+    fecha = models.DateField(auto_now_add=True)
     presente = models.BooleanField(default=False)
 
     def __str__(self):

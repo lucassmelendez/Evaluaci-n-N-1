@@ -81,25 +81,30 @@ def guardar_alumno(request):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+from .models import alumno, materias, Asistencia  # Asegúrate de que los modelos están importados correctamente
+
 @api_view(['GET'])
 def asistencias_por_materia(request):
-    materias_list = materias.objects.all()
+    materias_list = materias.objects.all()  # Verifica que el nombre del modelo es correcto
     asistencia_data = []
 
     for materia in materias_list:
-        # Asegúrate de que 'nombre' es la clave foránea correcta
         asistencias = Asistencia.objects.filter(nombre=materia)
         asistencia_info = {
             "nombre": materia.nombre,
             "asistencias": []
         }
+
+        for alumno_obj in alumno.objects.all():
+            alumno_asistencias = asistencias.filter(alumno=alumno_obj)
+            asistencia_count = alumno_asistencias.count()
+            if asistencia_count > 0:
+                asistencia_info["asistencias"].append({
+                    "alumno_id": alumno_obj.id,
+                    "nombre": f"{alumno_obj.nombre} {alumno_obj.apellido}",
+                    "asistencia": asistencia_count
+                })
         
-        for asistencia in asistencias:
-            asistencia_info["asistencias"].append({
-                "alumno_id": asistencia.alumno.id,
-                "nombre": f"{asistencia.alumno.nombre} {asistencia.alumno.apellido}",
-                "asistencia": asistencia.presente
-            })
         asistencia_data.append(asistencia_info)
 
     return Response(asistencia_data, status=status.HTTP_200_OK)

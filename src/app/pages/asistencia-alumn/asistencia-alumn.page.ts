@@ -1,4 +1,3 @@
-// asistencia-alumn.page.ts
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { ClaseService } from 'src/app/servicios/clase.service';
@@ -58,7 +57,7 @@ export class AsistenciaAlumnPage implements OnInit {
     this.claseService.incrementarClases();
   
     // Registrar la asistencia de los alumnos seleccionados
-    for (const student of this.students) {
+    const promesas = this.students.map(async (student) => {
       if (student.presente) {
         try {
           // Incrementar la asistencia del alumno
@@ -67,7 +66,10 @@ export class AsistenciaAlumnPage implements OnInit {
           console.error('Error al incrementar la asistencia:', error);
         }
       }
-    }
+    });
+
+    // Espera que todas las promesas se completen
+    await Promise.all(promesas);
   
     // Navegar a la página de inicio
     this.navCtrl.navigateForward(['/home-profe']);
@@ -79,7 +81,6 @@ export class AsistenciaAlumnPage implements OnInit {
     });
     await alert.present();
   }
-  
 
   getAttendancePercentage(asistencia: number): string {
     if (this.totalClases === 0) return '0%';

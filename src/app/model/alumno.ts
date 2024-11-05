@@ -1,15 +1,6 @@
-export interface Materia {
-    nombre: string;
-    asistencias: Asistencia[]; 
-}
-
-export interface Asistencia {
-    fecha: string;
-    presente: boolean; 
-}
-
+// alumno.ts
 export interface Alumno {
-    id?: string; // Asegúrate de que esta propiedad esté presente
+    id?: string;
     nombre: string;
     apellido: string;
     edad: number | null;
@@ -20,6 +11,29 @@ export interface Alumno {
     materias: Materia[];
 }
 
+export interface Materia {
+    nombre: string;
+    duracion: string;
+    correo_profe: string;
+    totalClases: number;
+}
+
+export interface Profesor {
+    id?: string;
+    nombre: string;
+    apellido: string;
+    edad: number | null;
+    correo: string;
+    password: string;
+    password2: string;
+    curso: string;
+}
+
+export interface Asistencia {
+    fecha: string;
+    presente: boolean;
+}
+
 export interface AlumnoConPresente extends Alumno {
-    presente?: boolean; // Propiedad opcional para la presencia
+    presente?: boolean;
 }

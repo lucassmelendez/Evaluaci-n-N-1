@@ -55,7 +55,7 @@ def generar_pdf_alumnos(request):
     p.drawString(100, y + 20, "Informe de Alumnos")
 
     for alumno_instance in alumnos_list:  
-        y -= 20  #
+        y -= 20  
         p.drawString(100, y, f"ID: {alumno_instance.id} - Nombre: {alumno_instance.nombre} {alumno_instance.apellido} // Asistencia: {alumno_instance.asistencia} dia(s) asistido(s)")
 
     p.showPage()
@@ -80,3 +80,26 @@ def guardar_alumno(request):
         return Response({"mensaje": "Alumno guardado en Django"}, status=status.HTTP_201_CREATED)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def asistencias_por_materia(request):
+    materias_list = materias.objects.all()
+    asistencia_data = []
+
+    for materia in materias_list:
+        # Obtiene la lista de asistencias para cada materia
+        asistencias = Asistencia.objects.filter(materia=materia)
+        asistencia_info = {
+            "materia": materia.nombre,
+            "asistencias": []
+        }
+        
+        for asistencia in asistencias:
+            asistencia_info["asistencias"].append({
+                "alumno_id": asistencia.alumno.id,
+                "nombre": f"{asistencia.alumno.nombre} {asistencia.alumno.apellido}",
+                "asistencia": asistencia.presente  # Cambia esto según la lógica que necesites
+            })
+        asistencia_data.append(asistencia_info)
+
+    return Response(asistencia_data, status=status.HTTP_200_OK)

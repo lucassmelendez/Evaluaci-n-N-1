@@ -1,8 +1,9 @@
+import { Materias } from 'src/app/model/materias';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Alumno } from '../model/alumno';
+import { Alumno,Profesor } from '../model/alumno'; // Importar las interfaces necesarias
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,11 @@ export class CrudAPIService {
   private rutaApiAlumno = "http://127.0.0.1:8000/api/alumno/";
   private rutaIncrementarAsistencia = "http://127.0.0.1:8000/api/incrementar_asistencia/";
   private rutaAsistenciasPorMateria = "http://127.0.0.1:8000/api/asistencias_por_materia/";
+  private apiUrl = 'http://127.0.0.1:8000/api';
 
-  constructor(private http: HttpClient, private firestore: AngularFirestore) {} // Inyecta AngularFirestore
+  constructor(private http: HttpClient, private firestore: AngularFirestore) {}
 
+  // Métodos de interacción con la API
   getAlumno(): Observable<Alumno[]> {
     return this.http.get<Alumno[]>(this.rutaApiAlumno);
   }
@@ -22,16 +25,89 @@ export class CrudAPIService {
     return this.http.post(this.rutaIncrementarAsistencia, data);
   }
 
-  // Método para actualizar la asistencia en Firestore
-  actualizarAsistenciaEnFirestore(studentId: string, asistencia: number): Promise<void> {
-    return this.firestore.collection('alumnos').doc(studentId).update({ asistencia });
-  }
-
   getAlumnoPDF(): Observable<Blob> {
     return this.http.get(`${this.rutaApiAlumno}pdf/`, { responseType: 'blob' });
   }
 
-  getAsistenciasPorMateria(): Observable<any> {
-    return this.http.get<any>(this.rutaAsistenciasPorMateria);
+  getMateriasConAsistencias(): Observable<Materias[]> {
+    return this.http.get<Materias[]>(`${this.apiUrl}/asistencias_por_materia`);
   }
+
+
+
+  // Métodos de interacción con Firestore
+
+  // CRUD para Alumnos en Firestore
+  agregarAlumnoFirestore(alumno: Alumno): Promise<void> {
+    const id = this.firestore.createId();
+    return this.firestore.collection('alumnos').doc(id).set(alumno);
+  }
+
+  obtenerAlumnoFirestore(id: string): Observable<Alumno | undefined> {
+    return this.firestore.collection('alumnos').doc<Alumno>(id).valueChanges();
+  }
+
+  actualizarAlumnoFirestore(id: string, alumno: Alumno): Promise<void> {
+    return this.firestore.collection('alumnos').doc(id).update(alumno);
+  }
+
+  eliminarAlumnoFirestore(id: string): Promise<void> {
+    return this.firestore.collection('alumnos').doc(id).delete();
+  }
+
+  // CRUD para Profesores en Firestore
+  agregarProfesorFirestore(profesor: Profesor): Promise<void> {
+    const id = this.firestore.createId();
+    return this.firestore.collection('profesores').doc(id).set(profesor);
+  }
+
+  obtenerProfesorFirestore(id: string): Observable<Profesor | undefined> {
+    return this.firestore.collection('profesores').doc<Profesor>(id).valueChanges();
+  }
+
+  actualizarProfesorFirestore(id: string, profesor: Profesor): Promise<void> {
+    return this.firestore.collection('profesores').doc(id).update(profesor);
+  }
+
+  eliminarProfesorFirestore(id: string): Promise<void> {
+    return this.firestore.collection('profesores').doc(id).delete();
+  }
+
+  // CRUD para Materias en Firestore
+  agregarMateriaFirestore(materia: Materias): Promise<void> {
+    const id = this.firestore.createId();
+    return this.firestore.collection('materias').doc(id).set(materia);
+  }
+
+  obtenerMateriaFirestore(id: string): Observable<Materias | undefined> {
+    return this.firestore.collection('materias').doc<Materias>(id).valueChanges();
+  }
+
+  actualizarMateriaFirestore(id: string, materia: Materias): Promise<void> {
+    return this.firestore.collection('materias').doc(id).update(materia);
+  }
+
+  eliminarMateriaFirestore(id: string): Promise<void> {
+    return this.firestore.collection('materias').doc(id).delete();
+  }
+
+  // Registro de asistencia en una materia específica para un alumno
+  registrarAsistencia(alumnoId: string, materiaId: string, fecha: string, presente: boolean): Promise<void> {
+    const asistenciaRef = this.firestore
+      .collection('alumnos')
+      .doc(alumnoId)
+      .collection('materias')
+      .doc(materiaId)
+      .collection('asistencias')
+      .doc(fecha);
+
+    return asistenciaRef.set({ presente });
+  }
+
+  // Incrementar asistencia en Firestore
+  actualizarAsistenciaEnFirestore(studentId: string, asistencia: number): Promise<void> {
+    return this.firestore.collection('alumnos').doc(studentId).update({ asistencia });
+  }
+
+  
 }

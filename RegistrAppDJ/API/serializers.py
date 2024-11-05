@@ -7,7 +7,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AsistenciaSerializer(serializers.ModelSerializer):
-    materia = serializers.StringRelatedField()
+    materia = serializers.StringRelatedField() 
 
     class Meta:
         model = Asistencia
@@ -17,16 +17,17 @@ class MateriasSerializer(serializers.ModelSerializer):
     asistencias = AsistenciaSerializer(many=True, read_only=True)
 
     class Meta:
-        model = materias  # Asegúrate de que el modelo sea el correcto
+        model = materias 
         fields = ['nombre', 'asistencias', 'correo_profe', 'totalClases']
 
 class AlumnoSerializer(serializers.ModelSerializer):
-    materias = MateriasSerializer(many=True, read_only=True)
+    asistencias = AsistenciaSerializer(many=True, read_only=True)
 
     class Meta:
         model = alumno
         fields = '__all__'
+
 class ProfesorSerializer(serializers.ModelSerializer):
     class Meta:
-        model = profesor
+        model = profesor 
         fields = '__all__'

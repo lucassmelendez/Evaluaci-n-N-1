@@ -1,7 +1,7 @@
 // Interfaces
 export interface Materias {
     id: number;
-    nombre: string;
+    materia: string;
     duracion: string;         // Duración de la materia o curso
     correo_profe: string;     // Correo del profesor encargado de la materia
     totalClases: number;      // Cantidad total de clases programadas para la materia
